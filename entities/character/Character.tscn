@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://entities/character/character.gd" type="Script" id=1]
+[ext_resource path="res://entities/character/state_machine/states/grapple_check/motion/standard/in_air/jump.gd" type="Script" id=2]
+[ext_resource path="res://entities/character/state_machine/states/grapple_check/motion/standard/on_ground/move.gd" type="Script" id=3]
+[ext_resource path="res://entities/character/state_machine/states/grapple_check/motion/standard/on_ground/idle.gd" type="Script" id=4]
+[ext_resource path="res://entities/character/state_machine/states/grapple_check/motion/standard/in_air/fall.gd" type="Script" id=5]
+[ext_resource path="res://entities/character/state_machine/character_state_machine.gd" type="Script" id=7]
+[ext_resource path="res://icon.png" type="Texture" id=8]
+[ext_resource path="res://entities/character/grapple_manager.gd" type="Script" id=9]
+[ext_resource path="res://entities/character/state_machine/states/grapple_check/motion/hooked/in_air/in_air.gd" type="Script" id=10]
+[ext_resource path="res://entities/character/state_machine/states/grapple_check/motion/hooked/on_ground/on_ground.gd" type="Script" id=11]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 14.1722
+height = 34.2745
+
+[node name="Character" type="KinematicBody2D"]
+collision_layer = 2
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 7 )
+START_STATE = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource( 4 )
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource( 3 )
+
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource( 2 )
+ACCELERATION = 0.05
+
+[node name="Fall" type="Node" parent="StateMachine"]
+script = ExtResource( 5 )
+ACCELERATION = 0.05
+
+[node name="GrappleAir" type="Node" parent="StateMachine"]
+script = ExtResource( 10 )
+ACCELERATION = 0.1
+
+[node name="GrappleGround" type="Node" parent="StateMachine"]
+script = ExtResource( 11 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.401263, 0.943868 )
+texture = ExtResource( 8 )
+
+[node name="GrappleManager" type="Node2D" parent="."]
+script = ExtResource( 9 )
+
+[node name="GrappleCast" type="RayCast2D" parent="GrappleManager"]
+cast_to = Vector2( 0, 600 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -69.0
+margin_top = -59.0
+margin_right = 68.0
+margin_bottom = -32.0
+text = "zzeze"
+align = 1
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
