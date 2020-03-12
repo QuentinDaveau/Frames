@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://entities/character/Character.tscn" type="PackedScene" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 545.77, 270.018 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -30.5538, -31.869, -28.2211, 31.1139, 30.0964, 29.9475, 27.7637, -30.7027 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2( 688.61, 399.254 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D3"]
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D3"]
+polygon = PoolVector2Array( -30.5538, -31.869, -28.2211, 31.1139, 30.0964, 29.9475, 27.7637, -30.7027 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2( 532.165, 837.253 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( -0.519547, 0 )
+scale = Vector2( 15.632, 0.417226 )
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D2"]
+polygon = PoolVector2Array( -500.891, 11.4787, -499.53, -10.2873, 501.705, -10.2873, 501.705, 10.1183 )
+
+[node name="Character" parent="." instance=ExtResource( 1 )]
+position = Vector2( 532.239, 774.818 )
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2( 230.015, 780.456 )
+mode = 3
+mass = 10.0
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D"]
+scale = Vector2( 1.3048, 1.14438 )
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D"]
+polygon = PoolVector2Array( -39.5771, -35.1127, -38.2166, 34.2664, 40.685, 35.6267, 39.3247, -33.7523 )
