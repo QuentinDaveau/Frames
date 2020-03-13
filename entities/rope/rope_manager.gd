@@ -111,13 +111,13 @@ func _update_params() -> void:
 		_length_left = 0.01
 	
 	_active_parent_vect = _active_joint_position - _parent_joint_position
-	$Cast.global_position = _active_joint_position + (_joints_offset.back() * 2.0)
 	_rebatch_line_points()
 	emit_signal("rope_points_updated", _active_joint_position, _length_left)
 
 
 func _update_cast() -> void:
-	$Cast.rotation = $Cast.global_position.angle_to_point(_hanged_body_position) + PI/2
+	$Cast.global_position = _hanged_body_position
+	$Cast.rotation = $Cast.global_position.angle_to_point(_active_joint_position + (_joints_offset.back() * 2.0)) + PI/2
 	$Cast/RayCast2D.cast_to.y = _active_joint_position.distance_to(_hanged_body_position) - $Cast/RayCast2D.position.y
 	$Cast/RayCast2D.force_raycast_update()
 
