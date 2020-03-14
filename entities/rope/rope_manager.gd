@@ -24,11 +24,10 @@ var _old_hanged_position: Vector2
 
 
 func setup(spawn_position: Vector2, raycast_offset: Vector2, total_length: float, hanged_body: Node2D) -> void:
-	$Cast.position = raycast_offset
 	_total_length = total_length
 	_hanged_body = hanged_body
 	_old_hanged_position = _hanged_body.global_position
-	_active_joint_position = spawn_position + (raycast_offset * 2)
+	_active_joint_position = spawn_position
 	_joints.append(_active_joint_position)
 	_joints_offset.append(raycast_offset)
 	global_position = spawn_position
@@ -56,14 +55,21 @@ func _physics_process(delta) -> void:
 		var closest_point: Vector2
 		
 		if collider is TileMap:
-			var collider_coords: Vector2 = collider.world_to_map($Cast/RayCast2D.get_collision_point() - $Cast/RayCast2D.get_collision_normal())
+			var collider_coords: Vector2 = collider.world_to_map($Cast/RayCast2D.get_collision_point() - ($Cast/RayCast2D.get_collision_normal() * 0.1))
 			var colliding_cell = collider.get_cellv(collider_coords)
-			var collider_global_coords: Vector2 = collider.map_to_world(collider_coords)
+			var collider_global_coords: Vector2 = collider.map_to_world(collider_coords) + (collider.cell_size / 2.0)
 			
-			closest_point = _find_closest_point(collider_global_coords,  collider.tile_set.tile_get_shape(colliding_cell, 0).points)
+			if colliding_cell == -1:
+				return
+			
+			closest_point = _find_closest_point(collider_global_coords,  collider.tile_set.tile_get_shape(colliding_cell, 0).points, collider.cell_size / 2.0)
+			if closest_point == Vector2.ZERO:
+				return
 			_add_active_joint(closest_point , _find_contact_side(), collider_global_coords)
 		else:
 			closest_point = _find_closest_point(collider.global_position, collider.get_node("CollisionPolygon2D").polygon)
+			if closest_point == Vector2.ZERO:
+				return
 			_add_active_joint(closest_point , _find_contact_side(), collider.global_position)
 	_old_hanged_position = _hanged_body_position
 	_update_rope_line()
@@ -117,8 +123,8 @@ func _update_params() -> void:
 
 func _update_cast() -> void:
 	$Cast.global_position = _hanged_body_position
-	$Cast.rotation = $Cast.global_position.angle_to_point(_active_joint_position + (_joints_offset.back() * 2.0)) + PI/2
-	$Cast/RayCast2D.cast_to.y = _active_joint_position.distance_to(_hanged_body_position) - $Cast/RayCast2D.position.y
+	$Cast.rotation = _hanged_body_position.angle_to_point(_active_joint_position + _joints_offset.back()) + PI/2
+	$Cast/RayCast2D.cast_to.y = _hanged_body_position.distance_to(_active_joint_position + _joints_offset.back()) - $Cast/RayCast2D.position.y
 	$Cast/RayCast2D.force_raycast_update()
 
 
@@ -142,16 +148,20 @@ func _find_contact_side() -> int:
 		return CONTACT_SIDE.left
 
 
-func _find_closest_point(collider_position: Vector2, polygons: PoolVector2Array) -> Vector2:
+func _find_closest_point(collider_position: Vector2, polygons: PoolVector2Array, origin_offset: Vector2 = Vector2.ZERO) -> Vector2:
 	var closest_point: Vector2 = Vector2.ZERO
+	var cast_radius: float = 2 * abs(sin((_active_joint_position - _old_hanged_position).angle_to(_active_joint_position - _hanged_body_position) / 2.0) * $Cast/RayCast2D.get_collision_point().distance_to(_active_joint_position))
 	
 	for polygon in polygons:
-		if ((collider_position + polygon) - _active_joint_position).length() < 1:
+		var polygon_pos: Vector2 = polygon - origin_offset
+		if (collider_position + polygon_pos).distance_to($Cast/RayCast2D.get_collision_point()) > cast_radius:
 			continue
+#		if ((collider_position + polygon_pos) - _active_joint_position).length() < 1.0:
+#			continue
 		if closest_point == Vector2.ZERO:
-			closest_point = collider_position + polygon
+			closest_point = collider_position + polygon_pos
 			continue
-		closest_point = _compare_points_to_rope(closest_point, collider_position + polygon)
+		closest_point = _compare_points_to_rope(closest_point, collider_position + polygon_pos)
 	return closest_point
 
 
@@ -171,4 +181,3 @@ func _get_dist_to_line(line_start: Vector2, line_end: Vector2, point_position: V
 	var ratio_on_line: float = start_to_point.dot(start_to_end) / start_to_end.length_squared()
 	var closest_point_position: Vector2 = Vector2(line_start.x + (start_to_end.x * ratio_on_line), line_start.y + (start_to_end.y * ratio_on_line))
 	return point_position.distance_to(closest_point_position)
-
