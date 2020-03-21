@@ -1,0 +1,17 @@
+Goal ?
+Tell a story, short (3-5h).
+
+Story ?
+funny, sad.
+
+Details ?
+Start dumb game. Game crashes. The "dialog box" and the player's avatar are stuck in the debug mode. The player needs to travel through different "frames" of the game (memory block ? Preloaded scenes ?) to reach the power-off switch to reboot the game and/or fix the bug (RAM, Memory...).
+
+Gameplay ?
+Puzzle-platformer. Strong focus on narration.
+
+Story details ?
+
+The character, narrator and dialog box are in front of the power-off/reboot switch (or repair/power-off). The character frees himself from the player. For any input the player does, the character goes toward the power-off switch, to a state where he has his hand on the lever. The dialog box interrups him ("hold on!") and tells him that the only way, the only interface they have to free themselves from the developper control is the player. The dev cannot fully control the player. Thus they leave the player control the character. The player switches the lever. The whole screen goes black, the game is finished.
+The credits rolls, everything is presented as the end of a play. Everyone is presented as his code, and the player is presented as "You!".
+At the end, everyone speaks and tell the player that obviously everything is coded, it is a game. But the player has full freedom, so he has to use it as his most.
