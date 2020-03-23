@@ -15,3 +15,15 @@ Story details ?
 The character, narrator and dialog box are in front of the power-off/reboot switch (or repair/power-off). The character frees himself from the player. For any input the player does, the character goes toward the power-off switch, to a state where he has his hand on the lever. The dialog box interrups him ("hold on!") and tells him that the only way, the only interface they have to free themselves from the developper control is the player. The dev cannot fully control the player. Thus they leave the player control the character. The player switches the lever. The whole screen goes black, the game is finished.
 The credits rolls, everything is presented as the end of a play. Everyone is presented as his code, and the player is presented as "You!".
 At the end, everyone speaks and tell the player that obviously everything is coded, it is a game. But the player has full freedom, so he has to use it as his most.
+
+Original mechanics ?
+
+Frame = scene = box with puzzle
+Extensive use of static camera (fixed on one frame, multiple...).
+Scene unloading: everything outside the FOV of the camera is "paused" (as if it was unloaded from the memory). If the camera comes back to it, it unpauses (falling rock stuck in the air). Can be interesting for puzzles.
+
+Frames mechanics ?
+Frame = physical object. Can be moved, rotated, diseappera, frame in frame, small frame in big frame, frame affected by surface it is on (heat...). Inside physical force affects frame (hit the wall...), magnetized.
+
+Secrets?
+Can change dialog speed in options, this slows down the narrator, allowing the character to pass through unaccessible paths
