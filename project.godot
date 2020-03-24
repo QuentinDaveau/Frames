@@ -12,16 +12,10 @@ _global_script_classes=[ {
 "base": "",
 "class": "Motion",
 "language": "GDScript",
-"path": "res://entities/character/state_machine/states/grapple_check/motion/motion.gd"
-}, {
-"base": "Node2D",
-"class": "RopeManager",
-"language": "GDScript",
-"path": "res://entities/rope/rope_manager.gd"
+"path": "res://entities/character/state_machine/states/motion/motion.gd"
 } ]
 _global_script_class_icons={
-"Motion": "",
-"RopeManager": ""
+"Motion": ""
 }
 
 [application]
