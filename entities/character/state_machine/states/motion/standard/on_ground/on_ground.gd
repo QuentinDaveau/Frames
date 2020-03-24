@@ -22,13 +22,7 @@ func update(delta) -> void:
 		_jump_flag = false
 		emit_signal("finished", "jump")
 		return
-#	if !_has_grapple_length():
-#		emit_signal("finished", "grapple_ground")
 	if not owner.is_on_floor():
 		emit_signal("finished", "fall")
 		return
 	.update(delta)
-
-
-func _get_grapple_equivalent() -> String:
-	return "grapple_ground"

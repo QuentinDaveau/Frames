@@ -17,7 +17,3 @@ func update(delta) -> void:
 	if owner.is_on_floor():
 		emit_signal("finished", "previous")
 		return
-
-
-func _get_grapple_equivalent() -> String:
-	return "grapple_air"

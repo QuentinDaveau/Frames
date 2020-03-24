@@ -1,4 +1,4 @@
-extends "../grapple_check.gd"
+extends "../state.gd"
 class_name Motion
 
 onready var DEAD_ZONE: float = 0.2

@@ -5,9 +5,7 @@ func _ready():
 		"idle": $Idle,
 		"move": $Move,
 		"jump": $Jump,
-		"fall": $Fall,
-		"grapple_ground": $GrappleGround,
-		"grapple_air": $GrappleAir
+		"fall": $Fall
 	}
 
 
@@ -15,7 +13,7 @@ func _change_state(state_name):
 	print(state_name)
 	if not _active:
 		return
-	if state_name in ["fall", "jump", "grapple_ground", "grapple_air"]:
-		if not(current_state in [states_map["grapple_ground"], states_map["grapple_air"], states_map["fall"], states_map["jump"]]):
+	if state_name in ["fall", "jump"]:
+		if not(current_state in [states_map["fall"], states_map["jump"]]):
 			states_stack.push_front(states_map[state_name])
 	._change_state(state_name)

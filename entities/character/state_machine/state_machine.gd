@@ -66,9 +66,5 @@ func _change_state(state_name):
 	
 	emit_signal("state_changed", current_state)
 	
-	
-	
-	owner.get_node("Label").text = states_stack[0].get_name()
-	
 	if state_name != "previous":
 		current_state.enter()
