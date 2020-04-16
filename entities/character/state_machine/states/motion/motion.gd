@@ -2,7 +2,6 @@ extends "../state.gd"
 class_name Motion
 
 onready var DEAD_ZONE: float = 0.2
-#onready var ANIMATION_MANAGER = owner.get_node("AnimationManager")
 var _input_direction: Vector2 = Vector2.ZERO
 
 
@@ -11,10 +10,8 @@ func initialize(input_direction: Vector2, velocity: Vector2) -> void:
 
 
 func handle_input(event) -> void:
-	
 	if (event.is_echo()):
 		return
-	
 	if event is InputEventJoypadMotion:
 		_update_input_direction(event)
 	elif event is InputEventKey:
@@ -29,12 +26,15 @@ func set_input_direction(input_direction: Vector2) -> void:
 	_input_direction = input_direction
 
 
+func update_look_direction(direction: int) -> void:
+	owner.set_look_direction(direction)
+
+
 func _update_input_direction(event: InputEventJoypadMotion) -> void:
 	if abs(event.axis_value) < DEAD_ZONE:
 		event.axis_value = 0.0
 	if event.axis == 0:
 		_input_direction.x = event.axis_value
-#		ANIMATION_MANAGER.move(_input_direction)
 	elif event.axis == 1:
 		_input_direction.y = event.axis_value
 

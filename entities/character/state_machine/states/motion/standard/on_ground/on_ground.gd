@@ -25,4 +25,5 @@ func update(delta) -> void:
 	if not owner.is_on_floor():
 		emit_signal("finished", "fall")
 		return
+	_velocity.y += _gravity * _gravity_multiplier * delta
 	.update(delta)
