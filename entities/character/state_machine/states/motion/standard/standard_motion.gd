@@ -32,6 +32,13 @@ func get_velocity() -> Vector2:
 	return _velocity
 
 
+func get_walking_direction() -> int:
+	if _velocity.x > 0.0:
+		return 1
+	else:
+		return -1
+
+
 func set_velocity_limitations(move_speed: float, move_acceleration: float) -> void:
 	_move_speed = move_speed
 	_move_acceleration = move_acceleration
@@ -42,4 +49,4 @@ func set_gravity_multiplier(gravity_multiplier: float) -> void:
 
 
 func _apply_movement(delta: float) -> void:
-	_velocity = owner.move_and_slide(_velocity, UP)
+	_velocity = owner.move_and_slide(_velocity, UP, false, 4, 0.785398, false)

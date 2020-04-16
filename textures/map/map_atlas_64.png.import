@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/map_atlas_32.png-055492af0ef474ff141da109bff7d4e5.stex"
+path="res://.import/map_atlas_64.png-5afa2402e021816c9280acab99a357f0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/map_atlas_32.png"
-dest_files=[ "res://.import/map_atlas_32.png-055492af0ef474ff141da109bff7d4e5.stex" ]
+source_file="res://textures/map/map_atlas_64.png"
+dest_files=[ "res://.import/map_atlas_64.png-5afa2402e021816c9280acab99a357f0.stex" ]
 
 [params]
 
