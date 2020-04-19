@@ -8,6 +8,11 @@ export(float) var ACCELERATION = 0.1
 #onready var GROUNDED_CHECK = get_node(GROUNDED_CHECK_PATH)
 
 
+func enter() -> void:
+	set_snap(false)
+	.enter()
+
+
 func handle_input(event) -> void:
 	.handle_input(event)
 

@@ -44,7 +44,6 @@ position = Vector2( 0, -2.8 )
 scale = Vector2( 0.127, 0.127 )
 texture = ExtResource( 6 )
 hframes = 10
-frame = 9
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 7 )

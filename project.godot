@@ -9,10 +9,20 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "CustomAnimationPlayer",
+"language": "GDScript",
+"path": "res://frame/custom_animation_player/custom_animation_player.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Entity",
 "language": "GDScript",
 "path": "res://entities/entity.gd"
+}, {
+"base": "Entity",
+"class": "Frame",
+"language": "GDScript",
+"path": "res://frame/frame.gd"
 }, {
 "base": "",
 "class": "Motion",
@@ -25,7 +35,9 @@ _global_script_classes=[ {
 "path": "res://entities/objects/object_entity.gd"
 } ]
 _global_script_class_icons={
+"CustomAnimationPlayer": "",
 "Entity": "",
+"Frame": "",
 "Motion": "",
 "ObjectEntity": ""
 }
@@ -33,7 +45,7 @@ _global_script_class_icons={
 [application]
 
 config/name="White Room"
-run/main_scene="res://test_scene.tscn"
+run/main_scene="res://tex.tscn"
 config/icon="res://icon.png"
 
 [display]
