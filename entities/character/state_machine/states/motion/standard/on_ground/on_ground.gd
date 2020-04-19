@@ -10,6 +10,12 @@ var _jump_flag: bool = false
 #onready var GROUNDED_CHECK = get_node(GROUNDED_CHECK_PATH)
 
 
+
+func enter() -> void:
+	set_snap(true)
+	.enter()
+
+
 func handle_input(event) -> void:
 	if event.is_action_pressed("game_jump"):
 		_jump_flag = true
