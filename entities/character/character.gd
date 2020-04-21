@@ -5,6 +5,11 @@ enum LOOK_DIRECTION{left= -1, right= 1}
 var _current_look_direction: int = LOOK_DIRECTION.right
 
 
+# Temporary override of the get_class function which normally would return the base KinematicBody2D class
+func get_class() -> String:
+    return "Character"
+
+
 func _physics_process(delta: float) -> void:
 	global_rotation = 0.0
 
