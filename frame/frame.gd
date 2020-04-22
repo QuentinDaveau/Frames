@@ -22,7 +22,7 @@ var _last_move: Vector2 = Vector2.ZERO
 
 # Temporary override of the get_class function which normally would return the base KinematicBody2D class
 func get_class() -> String:
-    return "Frame"
+	return "Frame"
 
 
 func _ready() -> void:
@@ -95,6 +95,10 @@ func enter() -> void:
 
 func exit() -> void:
 	return
+
+
+func _on_trigger_activated(trigger_identifier: String) -> void:
+	$SignalManager.signal_recieved(trigger_identifier)
 
 
 func _apply_move_as_static(delta: float) -> void:

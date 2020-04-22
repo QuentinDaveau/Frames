@@ -25,3 +25,5 @@ playback_process_mode = 0
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationManager"]
 
 [node name="Animations" type="Node" parent="AnimationManager"]
+
+[node name="SignalManager" type="Node" parent="."]

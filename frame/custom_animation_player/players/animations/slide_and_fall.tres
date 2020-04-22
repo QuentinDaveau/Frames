@@ -1,0 +1,35 @@
+[gd_resource type="Animation" format=2]
+
+[resource]
+resource_name = "slide_and_fall"
+length = 1.9
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("../TileMap:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, 0, 0, 0, 4.58699, 5.76762, -0.0827725, -0.0540881, 0.379903, 0.290905, 49.3025, 0, 0, 0, 0, 96.9866, 0, 0, 0, 0, 90, 0, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.5, 1.2, 1.5, 1.6 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("../TileMap:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0.681384, 0.462807, 512, 0, 0, 0, 0, 2142.94, 0, 0, 0, 0, 2305, 0, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.5, 1.2, 1.5, 1.6 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("../TileMap:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.00472234, 227.809, 230.955, 0, 0, 0.407948, 2.1151, 642.955, 0, 0, 0.13019, 198.17, 898.935, -0.168092, 1.72803, 0, 0 ),
+"times": PoolRealArray( 0, 0.5, 1.2, 1.9 )
+}
