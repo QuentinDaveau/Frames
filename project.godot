@@ -10,42 +10,60 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
+"class": "ActorStateMachine",
+"language": "GDScript",
+"path": "res://src/entities/actor/state_machine.gd"
+}, {
+"base": "Node",
 "class": "CustomAnimationPlayer",
 "language": "GDScript",
-"path": "res://frame/custom_animation_player/custom_animation_player.gd"
+"path": "res://src/entities/frame/custom_animation_player/custom_animation_player.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Entity",
 "language": "GDScript",
-"path": "res://entities/entity.gd"
+"path": "res://src/entities/entity.gd"
 }, {
 "base": "Entity",
 "class": "Frame",
 "language": "GDScript",
-"path": "res://frame/frame.gd"
+"path": "res://src/entities/frame/frame.gd"
 }, {
-"base": "",
+"base": "Camera2D",
+"class": "GameCamera",
+"language": "GDScript",
+"path": "res://src/game_camera/game_camera.gd"
+}, {
+"base": "State",
 "class": "Motion",
 "language": "GDScript",
-"path": "res://entities/character/state_machine/states/motion/motion.gd"
+"path": "res://src/entities/actor/character/state_machine/states/motion/motion.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "ObjectEntity",
 "language": "GDScript",
-"path": "res://entities/objects/object_entity.gd"
+"path": "res://src/entities/object/object_entity.gd"
 }, {
 "base": "Node",
 "class": "SignalManager",
 "language": "GDScript",
-"path": "res://frame/signal_manager.gd"
+"path": "res://src/entities/frame/signal_manager.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://src/entities/actor/state.gd"
 } ]
 _global_script_class_icons={
+"ActorStateMachine": "",
 "CustomAnimationPlayer": "",
 "Entity": "",
 "Frame": "",
+"GameCamera": "",
 "Motion": "",
 "ObjectEntity": "",
-"SignalManager": ""
+"SignalManager": "",
+"State": ""
 }
 
 [application]
@@ -53,6 +71,10 @@ _global_script_class_icons={
 config/name="White Room"
 run/main_scene="res://tex.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+CameraManager="*res://src/autoload/camera_manager.gd"
 
 [display]
 

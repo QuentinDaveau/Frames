@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/entities/frame/Frame.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_and_fall.tres" type="Animation" id=2]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/BullSlide.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/BullFall.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/entities/frame/custom_frames/signal_manager.gd" type="Script" id=5]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_right.tres" type="Animation" id=6]
+
+[node name="BullFrame" instance=ExtResource( 1 )]
+motion/sync_to_physics = true
+_physic_state = 3
+
+[node name="TileMap" parent="." index="0"]
+tile_data = PoolIntArray( -2031648, 0, 196611, -2031647, 0, 196612, -2031646, 0, 196612, -2031645, 0, 327684, -2031644, 0, 327684, -2031643, 0, 196612, -2031642, 0, 196612, -2031641, 0, 327684, -2031640, 0, 196612, -2031639, 0, 327684, -2031638, 0, 196612, -2031637, 0, 327684, -2031636, 0, 196612, -2031635, 0, 327684, -2031634, 0, 196612, -2031633, 0, 327684, -2031632, 0, 196612, -2031631, 0, 196612, -2031630, 0, 196612, -2031629, 0, 196612, -2031628, 0, 327684, -2031627, 0, 196612, -2031626, 0, 196612, -2031625, 0, 196612, -2031624, 0, 196612, -2031623, 0, 196612, -2031622, 0, 393219, -2031618, 0, 327680, -2031617, 0, 196613, -1966112, 0, 262147, -1966081, 0, 262147, -1900576, 0, 262147, -1900545, 0, 262147, -1835040, 0, 262147, -1835009, 0, 262149, -1769504, 0, 262149, -1769473, 0, 262149, -1703968, 0, 262147, -1703937, 0, 262149, -1638432, 0, 262149, -1638401, 0, 262149, -1572896, 0, 262147, -1572865, 0, 262149, -1507360, 0, 262147, -1507329, 0, 262147, -1441824, 0, 262147, -1441793, 0, 262147, -1376288, 0, 262149, -1376257, 0, 262147, -1310752, 0, 262147, -1310721, 0, 262149, -1245216, 0, 262147, -1245185, 0, 262149, -1179680, 0, 262147, -1179649, 0, 262147, -1114144, 0, 262147, -1114113, 0, 262147, -1048608, 0, 262149, -1048577, 0, 262147, -983072, 0, 262147, -983041, 0, 262147, -917536, 0, 262147, -917505, 0, 262149, -852000, 0, 262149, -851969, 0, 262147, -786464, 0, 262147, -786433, 0, 262147, -720928, 0, 262147, -720897, 0, 262149, -655392, 0, 262147, -655361, 0, 262149, -589856, 0, 262147, -589825, 0, 262149, -524320, 0, 262149, -524289, 0, 262149, -458784, 0, 262149, -458753, 0, 262149, -393248, 0, 262149, -393217, 0, 262147, -327712, 0, 262147, -327681, 0, 262147, -262176, 0, 262147, -262145, 0, 262149, -196640, 0, 262147, -196609, 0, 262149, -131104, 0, 262147, -131073, 0, 262149, -65568, 0, 262149, -65537, 0, 262147, -32, 0, 327683, -31, 0, 327684, -30, 0, 327684, -29, 0, 327684, -28, 0, 327684, -27, 0, 196612, -26, 0, 196612, -25, 0, 327684, -24, 0, 327684, -23, 0, 196612, -22, 0, 196612, -21, 0, 196612, -20, 0, 327684, -19, 0, 327684, -18, 0, 327684, -17, 0, 196612, -16, 0, 196612, -15, 0, 327684, -14, 0, 327684, -13, 0, 196612, -12, 0, 327684, -11, 0, 196612, -10, 0, 327684, -9, 0, 196612, -8, 0, 327684, -7, 0, 196612, -6, 0, 327684, -5, 0, 327684, -4, 0, 327684, -3, 0, 196612, -2, 0, 327684, -1, 0, 327685 )
+
+[node name="CollisionPolygon2D" parent="TileMap/CharacterChecker" index="0"]
+polygon = PoolVector2Array( -1024, -1024, -1024, 0, 0, 0, 0, -1024 )
+
+[node name="CameraTarget" parent="TileMap/CharacterChecker" index="1"]
+position = Vector2( -512, -448 )
+
+[node name="AnimationManager" parent="." index="2"]
+_animations = {
+"bull_fall": NodePath("Animations/BullFall"),
+"bull_slide": NodePath("Animations/BullSlide")
+}
+
+[node name="AnimationPlayer" parent="AnimationManager" index="1"]
+playback_process_mode = 0
+anims/slide_and_fall = ExtResource( 2 )
+
+[node name="BullSlide" parent="AnimationManager/Animations" index="0" instance=ExtResource( 3 )]
+_animations = {
+"slide_right": ExtResource( 6 )
+}
+
+[node name="BullFall" parent="AnimationManager/Animations" index="1" instance=ExtResource( 4 )]
+_animations = {
+"bull_fall": ExtResource( 2 )
+}
+
+[node name="SignalManager" parent="." index="3"]
+script = ExtResource( 5 )

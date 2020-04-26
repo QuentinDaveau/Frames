@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/tilesets/basic_tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://src/entities/frame/frame.gd" type="Script" id=2]
+[ext_resource path="res://src/entities/frame/animation_manager.gd" type="Script" id=3]
+[ext_resource path="res://src/entities/frame/character_checker.gd" type="Script" id=4]
+
+[node name="Frame" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 32 )
+collision_use_parent = true
+format = 1
+
+[node name="CharacterChecker" type="Area2D" parent="TileMap"]
+monitorable = false
+collision_mask = 3
+script = ExtResource( 4 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TileMap/CharacterChecker"]
+
+[node name="CameraTarget" type="Position2D" parent="TileMap/CharacterChecker"]
+
+[node name="BehaviourManager" type="Node" parent="."]
+
+[node name="AnimationManager" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Tween" type="Tween" parent="AnimationManager"]
+playback_process_mode = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationManager"]
+
+[node name="Animations" type="Node" parent="AnimationManager"]
+
+[node name="SignalManager" type="Node" parent="."]
