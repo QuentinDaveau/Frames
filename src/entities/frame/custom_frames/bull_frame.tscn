@@ -17,8 +17,10 @@ tile_data = PoolIntArray( -2031648, 0, 196611, -2031647, 0, 196612, -2031646, 0,
 [node name="CollisionPolygon2D" parent="TileMap/CharacterChecker" index="0"]
 polygon = PoolVector2Array( -1024, -1024, -1024, 0, 0, 0, 0, -1024 )
 
-[node name="CameraTarget" parent="TileMap/CharacterChecker" index="1"]
-position = Vector2( -512, -448 )
+[node name="CameraController" parent="TileMap" index="1"]
+position = Vector2( -512, -512 )
+_smooth = 0.2
+_zoom = 1.2
 
 [node name="AnimationManager" parent="." index="2"]
 _animations = {
@@ -28,7 +30,6 @@ _animations = {
 
 [node name="AnimationPlayer" parent="AnimationManager" index="1"]
 playback_process_mode = 0
-anims/slide_and_fall = ExtResource( 2 )
 
 [node name="BullSlide" parent="AnimationManager/Animations" index="0" instance=ExtResource( 3 )]
 _animations = {

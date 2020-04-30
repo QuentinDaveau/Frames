@@ -1,11 +1,11 @@
 extends Area2D
 
 
-export(float, 0, 1) var _camera_smoothing = 0.2
-export(float, 0.1, 10) var _zoom = 1.2
+var _camera_controller: CameraController
 
 
 func _ready() -> void:
+	_camera_controller = get_node("../CameraController")
 	connect("body_entered", self, "_on_body_entered")
 	connect("body_exited", self, "_on_body_exited")
 
@@ -13,10 +13,11 @@ func _ready() -> void:
 func _on_body_entered(body: Node) -> void:
 	if not body.get_class() == "Character":
 		return
-	CameraManager.get_camera().set_target($CameraTarget, Vector2.ZERO, _zoom, 0.2, _camera_smoothing)
+	_camera_controller.take_camera_control()
 
 
 func _on_body_exited(body: Node) -> void:
 	if not body.get_class() == "Character":
 		return
-	CameraManager.get_camera().remove_target($CameraTarget)
+	_camera_controller.leave_camera_control()
+	
