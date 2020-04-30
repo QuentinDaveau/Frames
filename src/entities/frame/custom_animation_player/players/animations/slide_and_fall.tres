@@ -2,7 +2,7 @@
 
 [resource]
 resource_name = "slide_and_fall"
-length = 1.9
+length = 4.0
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("../TileMap:rotation_degrees")
 tracks/0/interp = 1
@@ -32,4 +32,65 @@ tracks/2/enabled = true
 tracks/2/keys = {
 "points": PoolRealArray( 0, 0, 0, 0.00472234, 227.809, 230.955, 0, 0, 0.407948, 2.1151, 642.955, 0, 0, 0.13019, 198.17, 898.935, -0.168092, 1.72803, 0, 0 ),
 "times": PoolRealArray( 0, 0.5, 1.2, 1.9 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../TileMap/CameraController:_zoom")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3, 0.5, 3.5, 4 ),
+"transitions": PoolRealArray( 1, 1, 0.999992, 0.999999 ),
+"update": 0,
+"values": [ 1.2, 2.0, 2.0, 1.2 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../TileMap/CameraController:_smooth")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.3, 0.5, 3.5, 4 ),
+"transitions": PoolRealArray( 1, 1, 0.999996, 1 ),
+"update": 0,
+"values": [ 0.2, 0.1, 0.1, 0.2 ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("../TileMap/CameraController")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ Vector2( 0, 5 ), 0.0 ],
+"method": "shake_camera"
+}, {
+"args": [ Vector2( 0, 600 ), 0.0 ],
+"method": "shake_camera"
+} ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("../TileMap/CameraController")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 1.5, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [ 0.01, 0.0, 0.2, 0.0 ],
+"method": "set_camera_shake"
+}, {
+"args": [ 0.01, 0.2, 0.1, 0.0 ],
+"method": "set_camera_shake"
+}, {
+"args": [ 0.01, 0.5, 0.1, 0.0 ],
+"method": "set_camera_shake"
+} ]
 }
