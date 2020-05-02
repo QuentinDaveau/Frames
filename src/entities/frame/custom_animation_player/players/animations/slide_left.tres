@@ -4,12 +4,56 @@
 resource_name = "slide_left"
 length = 0.8
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("../Position2D:rotation_degrees")
+tracks/0/path = NodePath("../TileMap:rotation_degrees")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 0, 0, 0, 0, -6, -6, -0.25, 0, 0.153, 0, 0, 0, 0, 0, 0 ),
+"points": PoolRealArray( 0, 0, 0, 0, -5, -6, -0.25, 0, 0.153, 0, 0, 0, 0, 0.25, -6 ),
+"times": PoolRealArray( 0, 0.6, 0.8 )
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("../TileMap/CameraController")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ Vector2( 0, 5 ), 0.0 ],
+"method": "shake_camera"
+}, {
+"args": [ Vector2( 0, 40 ), 0.0 ],
+"method": "shake_camera"
+} ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("../TileMap/CameraController")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 0.0, 0.075, 0.0, 0.0 ],
+"method": "set_camera_shake"
+}, {
+"args": [ 0.01, 0.7, 0.1, 0.0 ],
+"method": "set_camera_shake"
+} ]
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("../TileMap:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 0, 0, 0, 0, -90.1352, -106.135, -0.25, 0, 0.153, 0, 0, 0, 0, 0.25, -6 ),
 "times": PoolRealArray( 0, 0.6, 0.8 )
 }

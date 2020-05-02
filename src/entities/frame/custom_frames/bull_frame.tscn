@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/entities/frame/Frame.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_and_fall.tres" type="Animation" id=2]
-[ext_resource path="res://src/entities/frame/custom_animation_player/players/BullSlide.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/entities/frame/custom_animation_player/players/BullFall.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/bull_fall.gd" type="Script" id=4]
 [ext_resource path="res://src/entities/frame/custom_frames/signal_manager.gd" type="Script" id=5]
 [ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_right.tres" type="Animation" id=6]
+[ext_resource path="res://src/entities/actor/npc/bull/Bull.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_left.tres" type="Animation" id=8]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/bull_slide.gd" type="Script" id=9]
 
 [node name="BullFrame" instance=ExtResource( 1 )]
 motion/sync_to_physics = true
@@ -19,8 +21,9 @@ polygon = PoolVector2Array( -1024, -1024, -1024, 0, 0, 0, 0, -1024 )
 
 [node name="CameraController" parent="TileMap" index="1"]
 position = Vector2( -512, -512 )
-_smooth = 0.2
-_zoom = 1.2
+
+[node name="Bull" parent="TileMap" index="2" instance=ExtResource( 7 )]
+position = Vector2( -720, -48 )
 
 [node name="AnimationManager" parent="." index="2"]
 _animations = {
@@ -30,13 +33,20 @@ _animations = {
 
 [node name="AnimationPlayer" parent="AnimationManager" index="1"]
 playback_process_mode = 0
+anims/slide_and_fall = ExtResource( 2 )
+anims/slide_left = ExtResource( 8 )
+"anims/slide_left 2" = ExtResource( 8 )
+anims/slide_right = ExtResource( 6 )
 
-[node name="BullSlide" parent="AnimationManager/Animations" index="0" instance=ExtResource( 3 )]
+[node name="BullSlide" type="Node" parent="AnimationManager/Animations" index="0"]
+script = ExtResource( 9 )
 _animations = {
+"slide_left": ExtResource( 8 ),
 "slide_right": ExtResource( 6 )
 }
 
-[node name="BullFall" parent="AnimationManager/Animations" index="1" instance=ExtResource( 4 )]
+[node name="BullFall" type="Node" parent="AnimationManager/Animations" index="1"]
+script = ExtResource( 4 )
 _animations = {
 "bull_fall": ExtResource( 2 )
 }

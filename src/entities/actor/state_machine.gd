@@ -51,6 +51,10 @@ func _on_animation_finished(anim_name):
 	current_state._on_animation_finished(anim_name)
 
 
+func _initialize_state() -> void:
+	pass
+
+
 func _change_state(state_name):
 	if not _active:
 		return
@@ -61,7 +65,7 @@ func _change_state(state_name):
 	else:
 		states_stack[0] = states_map[state_name]
 	
-	states_stack[0].initialize(current_state.get_input_direction(), current_state.get_velocity())
+	_initialize_state()
 	
 	current_state = states_stack[0]
 	

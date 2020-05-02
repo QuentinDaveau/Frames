@@ -4,7 +4,7 @@ class_name State
 signal finished(next_state_name)
 
 # Initialize the state. E.g. change the animation
-func initialize(input_direction: Vector2, velocity: Vector2) -> void:
+func initialize(properties: Dictionary = {}) -> void:
 	return
 
 # Enters the state
