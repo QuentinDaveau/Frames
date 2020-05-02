@@ -5,8 +5,8 @@ onready var DEAD_ZONE: float = 0.2
 var _input_direction: Vector2 = Vector2.ZERO
 
 
-func initialize(input_direction: Vector2, velocity: Vector2) -> void:
-	_input_direction = input_direction
+func initialize(properties: Dictionary = {}) -> void:
+	_input_direction = properties["input_direction"]
 
 
 func handle_input(event) -> void:

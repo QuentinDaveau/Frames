@@ -3,10 +3,17 @@ extends ActorStateMachine
 func _ready():
 	states_map = {
 		"idle": $Idle,
-		"move": $Move,
-		"jump": $Jump,
-		"fall": $Fall
+		"preparing": $Preparing,
+		"charging": $Charging,
+		"surprised": $Surprised,
+		"stunned": $Stunned,
+		"braking": $Braking,
+		"hitting": $Hitting,
 	}
+
+
+func force_stunned_state() -> void:
+	_change_state("stunned")
 
 
 func _change_state(state_name):
@@ -19,4 +26,4 @@ func _change_state(state_name):
 
 
 func _initialize_state() -> void:
-	states_stack[0].initialize({"input_direction": current_state.get_input_direction(), "velocity": current_state.get_velocity()})
+	states_stack[0].initialize(current_state.get_properties())

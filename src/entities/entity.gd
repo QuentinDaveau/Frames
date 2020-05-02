@@ -10,11 +10,16 @@ func get_class() -> String:
     return "Entity"
 
 
+func manually_raise_trigger(trigger_identifier: String, activated: bool = true) -> void:
+    if activated:
+        _on_trigger_activated(trigger_identifier)
+    else:
+        _on_trigger_deactivated(trigger_identifier)
+
+
 func _on_trigger_activated(trigger_identifier: String) -> void:
-    print("e", "   ", trigger_identifier, "   ", get_name())
     pass
 
 
 func _on_trigger_deactivated(trigger_identifier: String) -> void:
-    print("l")
     pass

@@ -24,7 +24,6 @@ func _ready() -> void:
 
 
 func _on_body_enter(body: Node) -> void:
-	print(body == get_node(_specific_target))
 	if _specific_target:
 		if not body == get_node(_specific_target):
 			return

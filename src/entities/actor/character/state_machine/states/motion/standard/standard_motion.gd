@@ -13,9 +13,9 @@ var _gravity_multiplier: float = 1.0
 var _snap: bool = true
 
 
-func initialize(input_direction: Vector2, velocity: Vector2) -> void:
-	_velocity = velocity
-	.initialize(input_direction, velocity)
+func initialize(properties: Dictionary = {}) -> void:
+	_velocity = properties["velocity"]
+	.initialize(properties)
 
 
 func enter() -> void:
@@ -52,7 +52,7 @@ func set_gravity_multiplier(gravity_multiplier: float) -> void:
 
 
 func _apply_movement(delta: float) -> void:
-	_velocity.x = lerp(_velocity.x, _move_speed * get_input_direction().x, _move_acceleration)
+	_velocity.x = lerp(_velocity.x, _move_speed * get_input_direction().x, _move_acceleration * delta)
 	if not owner.is_on_floor():
 		_velocity.y += _gravity * _gravity_multiplier * delta
 	if _snap:

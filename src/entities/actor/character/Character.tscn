@@ -30,12 +30,16 @@ START_STATE = NodePath("Idle")
 
 [node name="Fall" type="Node" parent="StateMachine" index="0"]
 script = ExtResource( 5 )
+ACCELERATION = 5.0
 
 [node name="Jump" type="Node" parent="StateMachine" index="1"]
 script = ExtResource( 2 )
+ACCELERATION = 5.0
 
 [node name="Idle" type="Node" parent="StateMachine" index="2"]
 script = ExtResource( 4 )
+ACCELERATION = 15.0
 
 [node name="Move" type="Node" parent="StateMachine" index="3"]
 script = ExtResource( 3 )
+ACCELERATION = 15.0

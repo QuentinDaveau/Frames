@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Entity",
+"class": "Actor",
+"language": "GDScript",
+"path": "res://src/entities/actor/actor.gd"
+}, {
 "base": "Node",
 "class": "ActorStateMachine",
 "language": "GDScript",
@@ -60,6 +65,7 @@ _global_script_classes=[ {
 "path": "res://src/entities/actor/state.gd"
 } ]
 _global_script_class_icons={
+"Actor": "",
 "ActorStateMachine": "",
 "CameraController": "",
 "CustomAnimationPlayer": "",
