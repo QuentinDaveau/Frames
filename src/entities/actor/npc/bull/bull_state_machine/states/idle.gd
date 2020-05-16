@@ -7,10 +7,10 @@ var _turn_timer: float = 0.0
 
 
 func enter() -> void:
+	.enter()
 	if _see_character:
 		emit_signal("finished", "preparing")
 	_turn_timer = TURN_DELAY
-	.enter()
 
 
 func update(delta) -> void:

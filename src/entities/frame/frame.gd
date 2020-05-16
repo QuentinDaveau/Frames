@@ -16,9 +16,6 @@ var _angular_velocity: float = 0.0
 var _applied_force: Vector2 = Vector2.RIGHT * 100
 var _applied_force_origin: Vector2 = Vector2.ZERO
 
-var _old_position: Vector2 = Vector2.ZERO
-var _last_move: Vector2 = Vector2.ZERO
-
 
 # Temporary override of the get_class function which normally would return the base KinematicBody2D class
 func get_class() -> String:
@@ -54,10 +51,6 @@ func _physics_process(delta: float) -> void:
 
 			# PHYSIC_STATE.animated:
 		
-		if $TileMap.has_node("Character"):
-			$TileMap.get_node("Character").position += _last_move
-			_last_move = _old_position - global_position
-		_old_position = global_position
 
 
 func define_physic_state(physic_state: int) -> void:

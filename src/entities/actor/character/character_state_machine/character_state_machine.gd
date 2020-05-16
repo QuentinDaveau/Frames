@@ -5,11 +5,13 @@ func _ready():
 		"idle": $Idle,
 		"move": $Move,
 		"jump": $Jump,
-		"fall": $Fall
+		"fall": $Fall,
+		"push": $Push
 	}
 
 
 func _change_state(state_name):
+	print_debug(state_name)
 	if not _active:
 		return
 	if state_name in ["fall", "jump"]:
@@ -19,4 +21,4 @@ func _change_state(state_name):
 
 
 func _initialize_state() -> void:
-	states_stack[0].initialize({"input_direction": current_state.get_input_direction(), "velocity": current_state.get_velocity()})
+	states_stack[0].initialize(current_state.get_properties())
