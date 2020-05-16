@@ -1,7 +1,12 @@
 extends State
-class_name Motion
 
+onready var GRAVITY: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 onready var DEAD_ZONE: float = 0.2
+
+export(float) var MAX_VELOCITY: float
+export(float) var ACCELERATION: float
+
+var _gravity_multiplier: float = 1.0
 var _input_direction: Vector2 = Vector2.ZERO
 
 
@@ -10,24 +15,33 @@ func initialize(properties: Dictionary = {}) -> void:
 
 
 func handle_input(event) -> void:
-	if (event.is_echo()):
+	if event.is_echo():
 		return
 	if event is InputEventJoypadMotion:
 		_update_input_direction(event)
 	elif event is InputEventKey:
 		_update_key_direction(event)
+	owner.set_look_direction(sign(_input_direction.x))
 
 
-func get_input_direction() -> Vector2:
-	return _input_direction
+func update(delta) -> void:
+	apply_movement(delta)
 
 
-func set_input_direction(input_direction: Vector2) -> void:
-	_input_direction = input_direction
+func get_properties() -> Dictionary:
+	return {"input_direction": _input_direction}
 
 
 func update_look_direction(direction: int) -> void:
 	owner.set_look_direction(direction)
+
+
+func apply_movement(delta) -> void:
+	var _current_velocity = owner.get_velocity()
+	_current_velocity.y += GRAVITY * _gravity_multiplier * delta
+	_current_velocity.x = lerp(_current_velocity.x, MAX_VELOCITY * _input_direction.x, ACCELERATION * delta)
+	owner.set_velocity(_current_velocity)
+	owner.move(delta)
 
 
 func _update_input_direction(event: InputEventJoypadMotion) -> void:

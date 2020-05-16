@@ -7,10 +7,6 @@ export(float) var _COLLISION_THRESHOLD: float = 200
 var _charge_timer: float = 0.0
 
 
-func enter() -> void:
-	.enter()
-
-
 func update(delta) -> void:
 	if abs(_velocity.x) <= 1.0:
 		emit_signal("finished", "idle")

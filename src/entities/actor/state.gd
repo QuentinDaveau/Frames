@@ -7,6 +7,10 @@ signal finished(next_state_name)
 func initialize(properties: Dictionary = {}) -> void:
 	return
 
+# Returns the properties for the initialization of the next state
+func get_properties() -> Dictionary:
+	return {}
+
 # Enters the state
 func enter() -> void:
 	return

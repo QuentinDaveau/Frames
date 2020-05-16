@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/entities/actor/character/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/entities/frame/custom_frames/bull_frame.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/tilesets/basic_tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://src/logic/trigger/Trigger.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/game_camera/GameCamera.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/entities/actor/things/box/Box.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_right.tres" type="Animation" id=7]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_left.tres" type="Animation" id=8]
+[ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_and_fall.tres" type="Animation" id=9]
 
 [node name="Node2D" type="Node2D"]
 
@@ -24,6 +28,26 @@ _specific_target = NodePath("../BullFrame")
 [node name="BullFrame" parent="." instance=ExtResource( 2 )]
 position = Vector2( 872, 1056 )
 
+[node name="Box" parent="BullFrame/TileMap" index="3" instance=ExtResource( 6 )]
+position = Vector2( -619.92, -1521.08 )
+
+[node name="AnimationManager" parent="BullFrame" index="2"]
+_animations = {
+"bull_fall": NodePath("Animations/BullFall"),
+"bull_slide": NodePath("Animations/BullSlide")
+}
+
+[node name="BullSlide" parent="BullFrame/AnimationManager/Animations" index="0"]
+_animations = {
+"slide_left": ExtResource( 8 ),
+"slide_right": ExtResource( 7 )
+}
+
+[node name="BullFall" parent="BullFrame/AnimationManager/Animations" index="1"]
+_animations = {
+"bull_fall": ExtResource( 9 )
+}
+
 [node name="Character" parent="." instance=ExtResource( 1 )]
 position = Vector2( -696, -1856 )
 
@@ -31,3 +55,5 @@ position = Vector2( -696, -1856 )
 _start_target_node = NodePath("../Character")
 _start_smoothing = 0.1
 _start_drag_margin = Vector2( 50, 50 )
+
+[editable path="BullFrame"]

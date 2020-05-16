@@ -1,16 +1,21 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://src/entities/actor/character/state_machine/character_state_machine.gd" type="Script" id=1]
-[ext_resource path="res://src/entities/actor/character/state_machine/states/motion/standard/in_air/jump.gd" type="Script" id=2]
-[ext_resource path="res://src/entities/actor/character/state_machine/states/motion/standard/on_ground/move.gd" type="Script" id=3]
-[ext_resource path="res://src/entities/actor/character/state_machine/states/motion/standard/on_ground/idle.gd" type="Script" id=4]
-[ext_resource path="res://src/entities/actor/character/state_machine/states/motion/standard/in_air/fall.gd" type="Script" id=5]
+[ext_resource path="res://src/entities/actor/character/character_state_machine/character_state_machine.gd" type="Script" id=1]
+[ext_resource path="res://src/entities/actor/character/character_state_machine/states/in_air/jump.gd" type="Script" id=2]
+[ext_resource path="res://src/entities/actor/character/character_state_machine/states/on_ground/move.gd" type="Script" id=3]
+[ext_resource path="res://src/entities/actor/character/character_state_machine/states/on_ground/idle.gd" type="Script" id=4]
+[ext_resource path="res://src/entities/actor/character/character_state_machine/states/in_air/fall.gd" type="Script" id=5]
 [ext_resource path="res://src/entities/actor/Actor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/textures/character/character_running.png" type="Texture" id=7]
+[ext_resource path="res://src/entities/actor/character/character_state_machine/states/on_ground/push.gd" type="Script" id=8]
+[ext_resource path="res://src/entities/actor/character/push_cast.gd" type="Script" id=9]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 12.7296
 height = 33.7492
+
+[sub_resource type="Animation" id=2]
+resource_name = "push"
 
 [node name="Character" instance=ExtResource( 6 )]
 _class_name = "Character"
@@ -24,22 +29,35 @@ scale = Vector2( 0.127, 0.127 )
 texture = ExtResource( 7 )
 hframes = 10
 
+[node name="PushCast" type="RayCast2D" parent="SpritePivot" index="1"]
+cast_to = Vector2( 15, 0 )
+script = ExtResource( 9 )
+
 [node name="StateMachine" parent="." index="2"]
 script = ExtResource( 1 )
 START_STATE = NodePath("Idle")
 
 [node name="Fall" type="Node" parent="StateMachine" index="0"]
 script = ExtResource( 5 )
-ACCELERATION = 5.0
+MAX_VELOCITY = 600.0
+ACCELERATION = 3.0
 
 [node name="Jump" type="Node" parent="StateMachine" index="1"]
 script = ExtResource( 2 )
-ACCELERATION = 5.0
+MAX_VELOCITY = 600.0
+ACCELERATION = 3.0
 
 [node name="Idle" type="Node" parent="StateMachine" index="2"]
 script = ExtResource( 4 )
-ACCELERATION = 15.0
+ACCELERATION = 10.0
 
 [node name="Move" type="Node" parent="StateMachine" index="3"]
 script = ExtResource( 3 )
-ACCELERATION = 15.0
+MAX_VELOCITY = 600.0
+ACCELERATION = 10.0
+
+[node name="Push" type="Node" parent="StateMachine" index="4"]
+script = ExtResource( 8 )
+
+[node name="AnimationPlayer" parent="." index="3"]
+anims/push = SubResource( 2 )
