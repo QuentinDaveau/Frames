@@ -23,14 +23,8 @@ func get_class() -> String:
 
 
 func _ready() -> void:
-	call_deferred("_reparent", get_parent().get_node("Character"))
-
-
-
-func _reparent(node: Node) -> void:
-	get_parent().remove_child(node)
-	$TileMap.add_child(node)
-	node.global_position = Vector2(-512, -512)
+	$TileMap/ActorChecker.connect("actor_entered", self, "_on_actor_enter")
+	$TileMap/ActorChecker.connect("actor_exited", self, "_on_actor_exit")
 
 
 func _physics_process(delta: float) -> void:
@@ -50,7 +44,6 @@ func _physics_process(delta: float) -> void:
 				_linear_velocity = move_and_slide(_linear_velocity, Vector2.UP)
 
 			# PHYSIC_STATE.animated:
-		
 
 
 func define_physic_state(physic_state: int) -> void:
@@ -74,7 +67,6 @@ func add_force(force: Vector2, force_origin: Vector2 = Vector2.ZERO) -> void:
 	pass
 
 
-
 func get_force() -> Vector2:
 	return _applied_force
 
@@ -89,6 +81,42 @@ func enter() -> void:
 
 func exit() -> void:
 	return
+
+
+func _on_actor_enter(actor: Actor) -> void:
+	if actor.is_reparenting():
+		return
+	if actor.get_class() == "Character":
+		$TileMap/CameraController.take_camera_control()
+		for sleeping_actor in $TileMap/Actors.get_children():
+			if sleeping_actor.get_class() == "Character":
+				continue
+			sleeping_actor.set_active(true)
+	call_deferred("_reparent", actor, $TileMap/Actors)
+
+
+func _on_actor_exit(actor: Actor) -> void:
+	if actor.is_reparenting():
+		return
+	if actor.get_class() == "Character":
+		$TileMap/CameraController.leave_camera_control()
+		for awoke_actor in $TileMap/Actors.get_children():
+			if awoke_actor.get_class() == "Character":
+				continue
+			awoke_actor.set_active(false)
+	call_deferred("_reparent", actor, get_parent())
+
+
+func _reparent(actor: Actor, target: Node2D) -> void:
+	actor.set_reparenting(true)
+	var actor_global_position = actor.global_position
+	var actor_global_rotation = actor.global_rotation
+	actor.get_parent().remove_child(actor)
+	target.add_child(actor)
+	actor.set_owner(target)
+	actor.global_position = actor_global_position
+	actor.global_rotation = actor_global_rotation
+	actor.set_reparenting(false)
 
 
 func _on_trigger_activated(trigger_identifier: String) -> void:

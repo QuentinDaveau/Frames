@@ -30,7 +30,8 @@ func update(delta) -> void:
 
 
 func exit() -> void:
-	cast.disconnect("pushable_collides", self, "_on_pushable_collision")
+	if cast.is_connected("pushable_collides", self, "_on_pushable_collision"):
+		cast.disconnect("pushable_collides", self, "_on_pushable_collision")
 
 
 func _on_pushable_collision() -> void:

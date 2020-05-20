@@ -19,6 +19,7 @@ resource_name = "push"
 
 [node name="Character" instance=ExtResource( 6 )]
 _class_name = "Character"
+_active = true
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource( 1 )

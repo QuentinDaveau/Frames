@@ -6,11 +6,13 @@ enum COLLISION_STATE{none, ground, slide}
 const WALL_ANGLE: float = PI/4
 
 export(String) var _class_name: String = "Actor"
+export(bool) var _active: bool = false
 export(bool) var _lock_rotation: bool = true
 
 var _current_look_direction: int = LOOK_DIRECTION.right
 var _velocity: Vector2 = Vector2.ZERO
 var _current_collision: int = COLLISION_STATE.none
+var _reparenting: bool = false
 
 
 # Temporary override of the get_class function which normally would return the base KinematicBody2D class
@@ -19,13 +21,28 @@ func get_class() -> String:
 
 
 func _physics_process(delta: float) -> void:
+	if not _active:
+		return
 	if not _lock_rotation:
 		return
 	global_rotation = 0.0
 
 
+func set_active(value: bool = true) -> void:
+	_active = value
+	$StateMachine.set_active(value)
+
+
+func set_reparenting(value: bool) -> void:
+	_reparenting = value
+
+
+func is_reparenting() -> bool:
+	return _reparenting
+
+
 func apply_impulse(impulse_vector: Vector2) -> void:
-	pass
+	_velocity += impulse_vector
 
 
 func set_look_direction(look_direction: int) -> void:

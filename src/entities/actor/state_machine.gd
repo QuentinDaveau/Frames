@@ -36,9 +36,9 @@ func set_active(value):
 	_active = value
 	set_physics_process(value)
 	set_process_input(value)
-	if not _active:
-		states_stack = []
-		current_state = null
+#	if not _active:
+#		states_stack = []
+#		current_state = null
 
 
 func _physics_process(delta):
