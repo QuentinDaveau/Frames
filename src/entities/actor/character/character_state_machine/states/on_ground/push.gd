@@ -46,10 +46,11 @@ func apply_movement(delta) -> void:
 
 func exit() -> void:
 	owner.get_node("SpritePivot/Sprite").modulate = Color(1, 1, 1)
-	_pushable.stop_push()
-	_pushable = null
-	cast.disconnect("pushable_collides", self, "_on_pushable_collision")
-	cast.disconnect("pushable_left", self, "_on_pushable_left")
+	if _pushable:
+		_pushable.stop_push()
+		_pushable = null
+		cast.disconnect("pushable_collides", self, "_on_pushable_collision")
+		cast.disconnect("pushable_left", self, "_on_pushable_left")
 
 
 func _on_pushable_collides() -> void:

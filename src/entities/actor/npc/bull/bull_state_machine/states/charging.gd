@@ -8,13 +8,14 @@ var _charge_timer: float = 0.0
 
 
 func update(delta) -> void:
-	_velocity.x = lerp(_velocity.x, _MAX_SPEED * owner.get_look_direction(), _ACCELERATION * delta)
-	var collision: KinematicCollision2D = owner.move_and_collide(_velocity * delta, true, true, true)
+	var _current_velocity: Vector2 = owner.get_velocity()
+	_current_velocity.x = lerp(_current_velocity.x, _MAX_SPEED * owner.get_look_direction(), _ACCELERATION * delta)
+	owner.set_velocity(_current_velocity)
+	.update(delta)
+	var collision: KinematicCollision2D = owner.move_and_collide(_current_velocity * delta, true, true, true)
 	if collision:
 		if collision.normal.x != 0:
 			emit_signal("finished", "hitting")
-	owner.move_and_collide(_velocity * delta)
-	.update(delta)
 
 
 func _on_character_lost(character_position: Vector2) -> void:

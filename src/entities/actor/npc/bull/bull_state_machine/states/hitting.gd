@@ -7,14 +7,17 @@ var _charge_timer: float = 0.0
 
 
 func enter() -> void:
-	hit(owner.move_and_collide(_velocity * get_physics_process_delta_time(), true, true, true))
-	_velocity.x = -_velocity.x
+	var hit = owner.move_and_collide(owner.get_velocity() * get_physics_process_delta_time(), true, true, true)
+	if hit:
+		hit(hit)
+	owner.set_velocity(owner.get_velocity() * Vector2(-1, 1))
 	.enter()
 
 
 func update(delta) -> void:
-	if abs(_velocity.x) <= 1.0:
+	var _current_velocity: Vector2 = owner.get_velocity()
+	if abs(_current_velocity.x) <= 1.0:
 		emit_signal("finished", "idle")
-	_velocity.x = lerp(_velocity.x, 0.0, _ACCELERATION * delta)
-	owner.move_and_collide(_velocity * delta)
+	_current_velocity.x = lerp(_current_velocity.x, 0.0, _ACCELERATION * delta)
+	owner.set_velocity(_current_velocity)
 	.update(delta)

@@ -11,7 +11,6 @@ func _ready():
 
 
 func _change_state(state_name):
-	print_debug(state_name)
 	if not _active:
 		return
 	if state_name in ["fall", "jump"]:

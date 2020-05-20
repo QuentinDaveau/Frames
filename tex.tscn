@@ -1,14 +1,39 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/entities/actor/character/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/entities/frame/custom_frames/bull_frame.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/tilesets/basic_tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://src/logic/trigger/Trigger.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/game_camera/GameCamera.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/entities/actor/things/box/Box.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_right.tres" type="Animation" id=7]
 [ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_left.tres" type="Animation" id=8]
 [ext_resource path="res://src/entities/frame/custom_animation_player/players/animations/slide_and_fall.tres" type="Animation" id=9]
+[ext_resource path="res://src/entities/bumper/Bumper.tscn" type="PackedScene" id=10]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+signal character_entered(character)
+signal character_exited(character)
+
+
+func _ready() -> void:
+	connect(\"body_entered\", self, \"_on_body_entered\")
+	connect(\"body_exited\", self, \"_on_body_exited\")
+
+
+func _on_body_entered(body: Node) -> void:
+	if not body.get_class() == \"Character\":
+		return
+	emit_signal(\"character_entered\", body)
+
+
+func _on_body_exited(body: Node) -> void:
+	if not body.get_class() == \"Character\":
+		return
+	emit_signal(\"character_exited\", body)
+	
+"
 
 [node name="Node2D" type="Node2D"]
 
@@ -28,8 +53,10 @@ _specific_target = NodePath("../BullFrame")
 [node name="BullFrame" parent="." instance=ExtResource( 2 )]
 position = Vector2( 872, 1056 )
 
-[node name="Box" parent="BullFrame/TileMap" index="3" instance=ExtResource( 6 )]
-position = Vector2( -619.92, -1521.08 )
+[node name="CharacterChecker" type="Area2D" parent="BullFrame/TileMap" index="0"]
+monitorable = false
+collision_mask = 3
+script = SubResource( 1 )
 
 [node name="AnimationManager" parent="BullFrame" index="2"]
 _animations = {
@@ -49,11 +76,14 @@ _animations = {
 }
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
-position = Vector2( -696, -1856 )
+position = Vector2( 648, -32 )
 
 [node name="GameCamera" parent="." instance=ExtResource( 5 )]
 _start_target_node = NodePath("../Character")
 _start_smoothing = 0.1
 _start_drag_margin = Vector2( 50, 50 )
+
+[node name="Bumper" parent="." instance=ExtResource( 10 )]
+position = Vector2( -688, 1056 )
 
 [editable path="BullFrame"]
