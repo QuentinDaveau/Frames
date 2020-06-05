@@ -57,6 +57,7 @@ func set_target(target_node: Node2D, lock = false, position_offset: Vector2 = Ve
 	if not _target_locked:
 		_targets_stack.append(target_node)
 		_target_node = target_node
+		_target_locked = lock
 	else:
 		_targets_stack.insert(_targets_stack.size() - 1, target_node)
 
