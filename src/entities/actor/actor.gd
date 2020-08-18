@@ -16,8 +16,8 @@ var _reparenting: bool = false
 
 
 # Temporary override of the get_class function which normally would return the base KinematicBody2D class
-func get_class() -> String:
-	return _class_name
+#func get_class() -> String:
+#	return _class_name
 
 
 func _physics_process(delta: float) -> void:

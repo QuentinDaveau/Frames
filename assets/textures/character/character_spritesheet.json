@@ -1,0 +1,63 @@
+{
+  "frames": {
+    "character_running.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 7168,
+        "h": 512
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7168,
+        "h": 512
+      },
+      "sourceSize": {
+        "w": 7168,
+        "h": 512
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "character_idle.png": {
+      "frame": {
+        "x": 0,
+        "y": 512,
+        "w": 512,
+        "h": 512
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 512
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 512
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.6",
+    "image": "character_spritesheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 7168,
+      "h": 1024
+    },
+    "scale": 1
+  }
+}

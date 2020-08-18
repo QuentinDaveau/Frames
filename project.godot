@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/logic/camera_controller/camera_controller.gd"
 }, {
+"base": "Actor",
+"class": "Character",
+"language": "GDScript",
+"path": "res://src/entities/actor/character/character.gd"
+}, {
 "base": "Node",
 "class": "CustomAnimationPlayer",
 "language": "GDScript",
@@ -49,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/game_camera/game_camera.gd"
 }, {
+"base": "Node2D",
+"class": "LogicBody",
+"language": "GDScript",
+"path": "res://src/logic/logic_bodies/logic_body.gd"
+}, {
 "base": "Node",
 "class": "SignalManager",
 "language": "GDScript",
@@ -64,18 +74,20 @@ _global_script_class_icons={
 "ActorStateMachine": "",
 "Box": "",
 "CameraController": "",
+"Character": "",
 "CustomAnimationPlayer": "",
 "Entity": "",
 "Frame": "",
 "GameCamera": "",
+"LogicBody": "",
 "SignalManager": "",
 "State": ""
 }
 
 [application]
 
-config/name="White Room"
-run/main_scene="res://tex.tscn"
+config/name="Frames"
+run/main_scene="res://src/maps/MainMap.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -86,6 +98,8 @@ CameraManager="*res://src/autoload/camera_manager.gd"
 
 window/size/width=1920
 window/size/height=1080
+window/size/test_width=1024
+window/size/test_height=600
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
@@ -131,11 +145,20 @@ game_left_click={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Main_map"
+2d_physics/layer_2="Frame"
+2d_physics/layer_3="Actor"
+2d_physics/layer_4="Logic_bodies"
+2d_physics/layer_5="Camera_control"
+
 [physics]
 
-2d/default_gravity=1920
+2d/default_gravity=2976
 
 [rendering]
 
+quality/2d/use_pixel_snap=true
 environment/default_clear_color=Color( 1, 1, 1, 1 )
 environment/default_environment="res://default_env.tres"

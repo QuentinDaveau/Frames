@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/entities/actor/character/character_state_machine/character_state_machine.gd" type="Script" id=1]
 [ext_resource path="res://src/entities/actor/character/character_state_machine/states/in_air/jump.gd" type="Script" id=2]
@@ -6,33 +6,158 @@
 [ext_resource path="res://src/entities/actor/character/character_state_machine/states/on_ground/idle.gd" type="Script" id=4]
 [ext_resource path="res://src/entities/actor/character/character_state_machine/states/in_air/fall.gd" type="Script" id=5]
 [ext_resource path="res://src/entities/actor/Actor.tscn" type="PackedScene" id=6]
-[ext_resource path="res://assets/textures/character/character_running.png" type="Texture" id=7]
+[ext_resource path="res://assets/textures/character/character_spritesheet.png" type="Texture" id=7]
 [ext_resource path="res://src/entities/actor/character/character_state_machine/states/on_ground/push.gd" type="Script" id=8]
 [ext_resource path="res://src/entities/actor/character/push_cast.gd" type="Script" id=9]
+[ext_resource path="res://src/entities/actor/character/character.gd" type="Script" id=10]
+[ext_resource path="res://src/entities/actor/character/run_particle_manager.gd" type="Script" id=11]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 12.7296
-height = 33.7492
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 15.7592, 54.9758 )
 
 [sub_resource type="Animation" id=2]
-resource_name = "push"
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 14 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpritePivot/Sprite:offset:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpritePivot/Sprite:scale:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.25 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SpritePivot/Sprite:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=3]
+
+[sub_resource type="Animation" id=4]
+length = 0.216
+loop = true
+step = 0.005
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0154, 0.0308, 0.0462, 0.0616, 0.077, 0.0924, 0.1078, 0.1232, 0.1386, 0.154, 0.1694, 0.1848, 0.2002 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("SpritePivot/Sprite:offset:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.0533217, -41.5, 0, -0.0460496, -41.5, 0.25, 0 ),
+"times": PoolRealArray( 0.0462, 0.2002 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpritePivot/Sprite:scale:y")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.01848, 0.0462, 0.1232, 0.2002 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.22, 0.25, 0.27, 0.25 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SpritePivot/Sprite:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.01848, 0.0462, 0.2002 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 6.0, 0.0, 0.0 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("SpritePivot/RunParticleManager")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.02 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "spawn_particle"
+} ]
+}
 
 [node name="Character" instance=ExtResource( 6 )]
-_class_name = "Character"
-_active = true
+script = ExtResource( 10 )
 
 [node name="CollisionShape2D" parent="." index="0"]
+position = Vector2( 0, 8.00955 )
 shape = SubResource( 1 )
 
 [node name="Sprite" parent="SpritePivot" index="0"]
-position = Vector2( 0, -2.8 )
-scale = Vector2( 0.127, 0.127 )
+position = Vector2( 0, 2.76546 )
+scale = Vector2( 0.25, 0.233407 )
 texture = ExtResource( 7 )
-hframes = 10
+vframes = 2
+hframes = 14
+region_rect = Rect2( 161.463, 22.8449, 1835.28, 75.526 )
 
 [node name="PushCast" type="RayCast2D" parent="SpritePivot" index="1"]
-cast_to = Vector2( 15, 0 )
+enabled = true
+cast_to = Vector2( 20, 0 )
+collision_mask = 4
 script = ExtResource( 9 )
+
+[node name="RunParticleManager" type="Node2D" parent="SpritePivot" index="2"]
+position = Vector2( -93.2174, -0.908569 )
+script = ExtResource( 11 )
+_run_particle_path = "res://src/entities/actor/character/RunParticle.tscn"
 
 [node name="StateMachine" parent="." index="2"]
 script = ExtResource( 1 )
@@ -40,25 +165,29 @@ START_STATE = NodePath("Idle")
 
 [node name="Fall" type="Node" parent="StateMachine" index="0"]
 script = ExtResource( 5 )
-MAX_VELOCITY = 600.0
-ACCELERATION = 3.0
+MAX_VELOCITY = 800.0
+ACCELERATION = 4.0
 
 [node name="Jump" type="Node" parent="StateMachine" index="1"]
 script = ExtResource( 2 )
-MAX_VELOCITY = 600.0
-ACCELERATION = 3.0
+MAX_VELOCITY = 800.0
+ACCELERATION = 4.0
+JUMP_VELOCITY = 1300.0
 
 [node name="Idle" type="Node" parent="StateMachine" index="2"]
 script = ExtResource( 4 )
-ACCELERATION = 10.0
+ACCELERATION = 21.0
 
 [node name="Move" type="Node" parent="StateMachine" index="3"]
 script = ExtResource( 3 )
-MAX_VELOCITY = 600.0
-ACCELERATION = 10.0
+MAX_VELOCITY = 800.0
+ACCELERATION = 25.0
 
 [node name="Push" type="Node" parent="StateMachine" index="4"]
 script = ExtResource( 8 )
+ACCELERATION = 25.0
 
 [node name="AnimationPlayer" parent="." index="3"]
-anims/push = SubResource( 2 )
+anims/idle = SubResource( 2 )
+anims/push = SubResource( 3 )
+anims/run = SubResource( 4 )

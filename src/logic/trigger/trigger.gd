@@ -3,7 +3,7 @@ extends Area2D
 signal trigger_activated()
 signal trigger_deactivated()
 
-enum TARGET_TYPE{character, frame, object}
+enum TARGET_TYPE{all, actor, character, frame}
 
 export(String) var _trigger_identifier: String
 export(TARGET_TYPE) var _target_type: int
@@ -14,46 +14,45 @@ export(Array, NodePath) var _observers: Array
 
 
 func _ready() -> void:
-	connect("body_entered", self, "_on_body_enter")
-	connect("body_exited", self, "_on_body_exit")
-
 	for observer in _observers:
 		connect("trigger_activated", get_node(observer), "_on_trigger_activated", [_trigger_identifier])
 		connect("trigger_deactivated", get_node(observer), "_on_trigger_deactivated", [_trigger_identifier])
-		
 
 
-func _on_body_enter(body: Node) -> void:
-	if _specific_target:
-		if not body == get_node(_specific_target):
-			return
-	else:
-		if not body.get_class() == _get_desired_target_type():
-			return
+func _on_body_entered(body: Node) -> void:
+	if not _check_class(body):
+		return
 	if _notify_target:
 		connect("trigger_activated", body, "_on_trigger_activated", [_trigger_identifier], CONNECT_ONESHOT)
 	emit_signal("trigger_activated")
-	
 
 
-func _on_body_exit(body: Node) -> void:
-	if _specific_target:
-		if not body == get_node(_specific_target):
-			return
-	else:
-		if not body.get_class() == _get_desired_target_type():
-			return
+func _on_body_exited(body: Node) -> void:
+	if not _check_class(body):
+		return
 	if _notify_target:
 		connect("trigger_deactivated", body, "_on_trigger_deactivated", [_trigger_identifier], CONNECT_ONESHOT)
 	emit_signal("trigger_deactivated")
 
 
-func _get_desired_target_type() -> String:
+func _check_class(body: Node) -> bool:
+	if _specific_target:
+		return body == get_node(_specific_target)
+	else:
+		return _body_is_desired_target_type(body)
+
+
+func _body_is_desired_target_type(body: Node) -> bool:
 	match _target_type:
+		TARGET_TYPE.all:
+			return true
+		TARGET_TYPE.actor:
+			if body is Actor: 
+				return true
 		TARGET_TYPE.character:
-			return "Character"
+			if body is Character: 
+				return true
 		TARGET_TYPE.frame:
-			return "Frame"
-		TARGET_TYPE.object:
-			return ""
-	return ""
+			if body is Frame: 
+				return true
+	return false

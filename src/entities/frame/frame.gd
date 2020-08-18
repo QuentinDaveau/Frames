@@ -17,16 +17,6 @@ var _applied_force: Vector2 = Vector2.RIGHT * 100
 var _applied_force_origin: Vector2 = Vector2.ZERO
 
 
-# Temporary override of the get_class function which normally would return the base KinematicBody2D class
-func get_class() -> String:
-	return "Frame"
-
-
-func _ready() -> void:
-	$TileMap/ActorChecker.connect("actor_entered", self, "_on_actor_enter")
-	$TileMap/ActorChecker.connect("actor_exited", self, "_on_actor_exit")
-
-
 func _physics_process(delta: float) -> void:
 		match _physic_state:
 
@@ -83,30 +73,6 @@ func exit() -> void:
 	return
 
 
-func _on_actor_enter(actor: Actor) -> void:
-	if actor.is_reparenting():
-		return
-	if actor.get_class() == "Character":
-		$TileMap/CameraController.take_camera_control()
-		for sleeping_actor in $TileMap/Actors.get_children():
-			if sleeping_actor.get_class() == "Character":
-				continue
-			sleeping_actor.set_active(true)
-	call_deferred("_reparent", actor, $TileMap/Actors)
-
-
-func _on_actor_exit(actor: Actor) -> void:
-	if actor.is_reparenting():
-		return
-	if actor.get_class() == "Character":
-		$TileMap/CameraController.leave_camera_control()
-		for awoke_actor in $TileMap/Actors.get_children():
-			if awoke_actor.get_class() == "Character":
-				continue
-			awoke_actor.set_active(false)
-	call_deferred("_reparent", actor, get_parent())
-
-
 func _reparent(actor: Actor, target: Node2D) -> void:
 	actor.set_reparenting(true)
 	var actor_global_position = actor.global_position
@@ -124,6 +90,7 @@ func _on_trigger_activated(trigger_identifier: String) -> void:
 
 
 func _apply_move_as_static(delta: float) -> void:
+	pass
 	# add_collision_exception_with($TileMap.get_node("Character"))
 	# var collision: KinematicCollision2D = move_and_collide(_linear_velocity * delta, true, true, true)
 	# remove_collision_exception_with($TileMap.get_node("Character"))
@@ -133,7 +100,7 @@ func _apply_move_as_static(delta: float) -> void:
 	# 	_linear_velocity = collision.remainder.slide(collision.normal) / delta
 	# 	global_position += collision.travel + (_linear_velocity * delta)
 	# else:
-		global_position += _linear_velocity * delta
+#		global_position += _linear_velocity * delta
 
 
 # Needs to be completed
@@ -170,3 +137,31 @@ func _apply_damp(delta: float) -> void:
 # 	if rotation_locked:
 # 		_linear_velocity += impulse_force
 # 		return
+
+
+func _on_actor_entered(actor) -> void:
+	if actor.is_reparenting():
+		return
+	if actor is Character:
+		$TileMap/CameraController.take_camera_control()
+		for body in $TileMap/Objects.get_children():
+			if not body.is_in_group("actor"):
+				continue
+			if body is Character:
+				continue
+			body.set_active(true)
+	call_deferred("_reparent", actor, $TileMap/Objects)
+
+
+func _on_actor_exited(actor) -> void:
+	if actor.is_reparenting():
+		return
+	if actor is Character:
+		$TileMap/CameraController.leave_camera_control()
+		for body in $TileMap/Objects.get_children():
+			if not body.is_in_group("actor"):
+				continue
+			if body is Character:
+				continue
+			body.set_active(false)
+	call_deferred("_reparent", actor, get_parent())

@@ -49,6 +49,7 @@ void fragment() {
 		COLOR.rgba = textureLod(SCREEN_TEXTURE, SCREEN_UV, amount).rgba;
 	}
 }"
+custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = SubResource( 2 )
@@ -72,11 +73,22 @@ _specific_target = NodePath("../BullFrame")
 
 [node name="BullFrame" parent="." instance=ExtResource( 2 )]
 position = Vector2( 872, 1056 )
+collision_layer = 1
+collision_mask = 1
 
 [node name="CharacterChecker" type="Area2D" parent="BullFrame/TileMap" index="0"]
 monitorable = false
 collision_mask = 3
 script = SubResource( 1 )
+
+[node name="ActorChecker" parent="BullFrame/TileMap" index="1"]
+monitorable = false
+collision_layer = 1
+collision_mask = 3
+
+[node name="Bull" parent="BullFrame/TileMap/Actors" index="0"]
+collision_layer = 1
+collision_mask = 1
 
 [node name="AnimationManager" parent="BullFrame" index="2"]
 _animations = {
@@ -97,6 +109,8 @@ _animations = {
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
 position = Vector2( 648, -32 )
+collision_layer = 1
+collision_mask = 1
 
 [node name="GameCamera" parent="." instance=ExtResource( 5 )]
 _start_target_node = NodePath("../Character")
@@ -117,8 +131,8 @@ __meta__ = {
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/MarginContainer"]
 material = SubResource( 3 )
-margin_right = 1920.0
-margin_bottom = 1080.0
+margin_right = 1024.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 1, 1, 1, 0 )

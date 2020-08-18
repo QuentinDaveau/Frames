@@ -9,3 +9,4 @@ script = ExtResource( 1 )
 
 [node name="Shaker" type="Tween" parent="."]
 playback_process_mode = 0
+[connection signal="tween_all_completed" from="Shaker" to="." method="_on_Shaker_tween_all_completed"]

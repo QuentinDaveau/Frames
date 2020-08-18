@@ -7,24 +7,31 @@
 [ext_resource path="res://src/logic/camera_controller/CameraController.tscn" type="PackedScene" id=5]
 
 [node name="Frame" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 7
 script = ExtResource( 2 )
+_physic_state = 0
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 32 )
 collision_use_parent = true
 format = 1
+tile_data = PoolIntArray( 0, 0, 196611, 1, 0, 196612, 2, 0, 327684, 3, 0, 327684, 4, 0, 196612, 5, 0, 196612, 6, 0, 327684, 7, 0, 327684, 8, 0, 196612, 9, 0, 196612, 10, 0, 327684, 11, 0, 196612, 12, 0, 327684, 13, 0, 196612, 14, 0, 327684, 15, 0, 196612, 16, 0, 327684, 17, 0, 327684, 18, 0, 196612, 19, 0, 327684, 20, 0, 196612, 21, 0, 196612, 22, 0, 196612, 23, 0, 196612, 24, 0, 196612, 25, 0, 327684, 26, 0, 196612, 27, 0, 327684, 28, 0, 327684, 29, 0, 196612, 30, 0, 196612, 31, 0, 196613, 65536, 0, 262147, 65567, 0, 262147, 131072, 0, 262149, 131103, 0, 262147, 196608, 0, 262147, 196639, 0, 262147, 262144, 0, 262149, 262175, 0, 262147, 327680, 0, 262149, 327711, 0, 262147, 393216, 0, 262147, 393247, 0, 262149, 458752, 0, 262147, 458783, 0, 262149, 524288, 0, 262147, 524319, 0, 262149, 589824, 0, 262147, 589855, 0, 262149, 655360, 0, 262147, 655391, 0, 262149, 720896, 0, 262147, 720927, 0, 262147, 786432, 0, 262147, 786463, 0, 262147, 851968, 0, 262149, 851999, 0, 262147, 917504, 0, 262149, 917535, 0, 262149, 983040, 0, 262147, 983071, 0, 262147, 1048576, 0, 262149, 1048607, 0, 262147, 1114112, 0, 262147, 1114143, 0, 262147, 1179648, 0, 262149, 1179679, 0, 262149, 1245184, 0, 262149, 1245215, 0, 262147, 1310720, 0, 262147, 1310751, 0, 262147, 1376256, 0, 262149, 1376287, 0, 262147, 1441792, 0, 262149, 1441823, 0, 262149, 1507328, 0, 262147, 1507359, 0, 262147, 1572864, 0, 262149, 1572895, 0, 262149, 1638400, 0, 262147, 1638431, 0, 262147, 1703936, 0, 262147, 1703967, 0, 262147, 1769472, 0, 262147, 1769503, 0, 262149, 1835008, 0, 262147, 1835039, 0, 262147, 1900544, 0, 262147, 1900575, 0, 262149, 1966080, 0, 262147, 1966111, 0, 262147, 2031616, 0, 327683, 2031617, 0, 327684, 2031618, 0, 196612, 2031619, 0, 327684, 2031620, 0, 196612, 2031621, 0, 327684, 2031622, 0, 196612, 2031623, 0, 196612, 2031624, 0, 196612, 2031625, 0, 327684, 2031626, 0, 196612, 2031627, 0, 327684, 2031628, 0, 196612, 2031629, 0, 327684, 2031630, 0, 196612, 2031631, 0, 196612, 2031632, 0, 196612, 2031633, 0, 196612, 2031634, 0, 327684, 2031635, 0, 196612, 2031636, 0, 327684, 2031637, 0, 196612, 2031638, 0, 327684, 2031639, 0, 327684, 2031640, 0, 327684, 2031641, 0, 196612, 2031642, 0, 196612, 2031643, 0, 196612, 2031644, 0, 327684, 2031645, 0, 327684, 2031646, 0, 327684, 2031647, 0, 327685 )
 
 [node name="ActorChecker" type="Area2D" parent="TileMap"]
-monitorable = false
-collision_mask = 3
+collision_layer = 16
+collision_mask = 4
 script = ExtResource( 4 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TileMap/ActorChecker"]
+polygon = PoolVector2Array( 8, 1016, 1016, 1016, 1016, 8, 8, 8 )
 
 [node name="CameraController" parent="TileMap" instance=ExtResource( 5 )]
+position = Vector2( 512, 512 )
+_zoom = 1.0
 
-[node name="Actors" type="Node2D" parent="TileMap"]
+[node name="Objects" type="Node2D" parent="TileMap"]
 
 [node name="BehaviourManager" type="Node" parent="."]
 
@@ -39,3 +46,7 @@ playback_process_mode = 0
 [node name="Animations" type="Node" parent="AnimationManager"]
 
 [node name="SignalManager" type="Node" parent="."]
+[connection signal="actor_entered" from="TileMap/ActorChecker" to="." method="_on_actor_entered"]
+[connection signal="actor_exited" from="TileMap/ActorChecker" to="." method="_on_actor_exited"]
+[connection signal="body_entered" from="TileMap/ActorChecker" to="TileMap/ActorChecker" method="_on_body_entered"]
+[connection signal="body_exited" from="TileMap/ActorChecker" to="TileMap/ActorChecker" method="_on_body_exited"]

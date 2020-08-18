@@ -1,0 +1,92 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://src/logic/logic_bodies/door/door.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 64 )
+
+[sub_resource type="AnimationNodeAnimation" id=2]
+animation = "Closing"
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+animation = "Opening"
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "init"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=5]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=6]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=7]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+
+[sub_resource type="AnimationNodeStateMachine" id=9]
+states/Closing/node = SubResource( 2 )
+states/Closing/position = Vector2( 125, 58 )
+states/Opening/node = SubResource( 3 )
+states/Opening/position = Vector2( 125, 133 )
+states/init/node = SubResource( 4 )
+states/init/position = Vector2( -16, 83 )
+transitions = [ "Closing", "Opening", SubResource( 5 ), "Opening", "Closing", SubResource( 6 ), "init", "Closing", SubResource( 7 ), "init", "Opening", SubResource( 8 ) ]
+start_node = "init"
+graph_offset = Vector2( -77, -35 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=10]
+
+[sub_resource type="Animation" id=11]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("../DoorTop/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("../DoorTop/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "init"
+
+[node name="Door" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="DoorTop" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorTop"]
+shape = SubResource( 1 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 9 )
+anim_player = NodePath("AnimationPlayer")
+active = true
+process_mode = 0
+parameters/playback = SubResource( 10 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationTree"]
+playback_process_mode = 0
+anims/Closing = SubResource( 11 )
+anims/Opening = SubResource( 12 )
+anims/init = SubResource( 13 )
