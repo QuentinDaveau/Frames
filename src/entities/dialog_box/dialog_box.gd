@@ -19,7 +19,7 @@ func _ready() -> void:
 	follow_player()
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if _followed_entity:
 		var _followed_entity_position = _followed_entity.global_position
 		if _offset:

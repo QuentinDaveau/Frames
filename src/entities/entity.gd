@@ -6,8 +6,8 @@ export(float) var mass: float = 1.0
 
 
 # Temporary override of the get_class function which normally would return the base KinematicBody2D class
-func get_class() -> String:
-	return "Entity"
+#func get_class() -> String:
+#	return "Entity"
 
 
 func manually_raise_trigger(trigger_identifier: String, activated: bool = true) -> void:

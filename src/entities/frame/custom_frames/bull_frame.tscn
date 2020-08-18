@@ -21,11 +21,11 @@ polygon = PoolVector2Array( -992, -992, -992, -32, -32, -32, -32, -992 )
 
 [node name="CameraController" parent="TileMap" index="1"]
 position = Vector2( -512, -512 )
-_smooth = 0.2
-_zoom = 1.2
 
 [node name="Bull" parent="TileMap/Actors" index="0" instance=ExtResource( 3 )]
 position = Vector2( -920, -56 )
+collision_layer = 1
+collision_mask = 1
 
 [node name="AnimationManager" parent="." index="2"]
 _animations = {

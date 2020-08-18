@@ -4,25 +4,27 @@ signal text_drawing_finished()
 
 export(bool) var _wait_for_input: bool = true
 export(float) var _single_character_drawing_speed: float = 0.025
+export(NodePath) var _text_label_path: NodePath
 
 onready var _dialog_player = owner.get_node("DialogPlayer")
-onready var _bars_player = owner.get_node("BarsPlayer")
-onready var _text_label = owner.get_node("RichTextLabel")
+onready var _bars_tweener = owner.get_node("BarsTweener")
+onready var _text_label = get_node(_text_label_path)
 
 var _text_is_drawing: bool = false
 var _is_speaking: bool = false
 var _dialog_queue: Array = []
 
+
 func _ready() -> void:
 	$Tween.connect("tween_all_completed", self, "_tween_finished")
 	_dialog_player.connect("animation_finished", self, "_on_dialog_finished")
-	_bars_player.connect("animation_finished", self, "_on_bars_finished")
+	_bars_tweener.connect("bars_updated", self, "_on_bars_finished")
 	yield(get_tree().create_timer(2.0), "timeout")
 
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
-		start_dialog("test2")
+		start_dialog("test")
 	if _is_speaking and _wait_for_input and (not _text_is_drawing):
 		if Input.is_action_just_pressed("ui_accept"):
 			_next_action()
@@ -42,14 +44,14 @@ func start_dialog(dialog_id: String, overridable: bool = true, takes_priority: b
 			_dialog_queue.append(dialog_dict)
 	else:
 		_dialog_queue.append(dialog_dict)
-	_bars_player.play("open_bars")
+	_bars_tweener.open_bars()
 
 
 func draw_text(text: String, allow_pause: bool = true) -> void:
 	if _dialog_player.is_playing() && allow_pause:
 		_dialog_player.stop(false)
 	var text_length: int = text.length()
-	text = "[fill]" + text + "[/fill]"
+	text = "[center]" + text + "[/center]"
 	_text_label.visible_characters = 0
 	_text_label.bbcode_text = text
 	$Tween.interpolate_property(
@@ -75,10 +77,10 @@ func _on_dialog_finished(anim_name: String) -> void:
 		_dialog_queue.pop_front()
 		owner.follow_player()
 		_text_label.bbcode_text = ""
-		_bars_player.play("close_bars")
+		_bars_tweener.close_bars()
 
 
-func _on_bars_finished(anim_name: String) -> void:
-	if anim_name == "open_bars":
+func _on_bars_finished(opening: bool) -> void:
+	if opening:
 		_dialog_player.play(_dialog_queue[0]["id"])
 		_is_speaking = true

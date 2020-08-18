@@ -21,27 +21,29 @@ var _shake_angle: float
 
 
 func _ready() -> void:
-	$Shaker.connect("tween_all_completed", self, "_shake_move_completed")
 	set_target(get_node(_start_target_node), false, Vector2.ZERO, 1.0, 0.2, _start_smoothing, _start_drag_margin)
 	global_position = get_node(_start_target_node).global_position
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	var target_position := _target_node.global_position
 	var aimed_position := global_position
 	var position_differential := global_position - target_position
 	var _drag_margin: Vector2 = _targets_properties[_target_node]["drag_margin"]
-
+	
 	if abs(position_differential.x) > _drag_margin.x:
 		aimed_position.x = target_position.x + (_drag_margin.x * sign(position_differential.x))
 	if abs(position_differential.y) > _drag_margin.y:
 		aimed_position.y = target_position.y + (_drag_margin.y * sign(position_differential.y))
-
+	
 	global_position = lerp(global_position, aimed_position, delta / (delta +_targets_properties[_target_node]["smooth"]))
 	zoom = lerp(zoom, Vector2.ONE * _targets_properties[_target_node]["zoom"], delta / (delta + _targets_properties[_target_node]["zoom_smooth"]))
 
 
-func set_target(target_node: Node2D, lock = false, position_offset: Vector2 = Vector2.ZERO, zoom: float = 1.0, zoom_smooth: float = 0.2, smooth: float = 0.2, drag_margin: Vector2 = Vector2.ZERO) -> void:
+func set_target(target_node: Node2D, lock = false,
+		position_offset: Vector2 = Vector2.ZERO, zoom: float = 1.0,
+		zoom_smooth: float = 0.2, smooth: float = 0.2,
+		drag_margin: Vector2 = Vector2.ZERO) -> void:
 	if target_node == _target_node:
 		return
 	if target_node in _targets_stack:
@@ -112,7 +114,13 @@ func set_shake(speed: float = -1.0, damp: float = -1.0, noise: float = -1.0, ang
 		_shake_angular_noise = angular_noise
 
 
-func _shake_move_completed() -> void:
+func _shake() -> void:
+	$Shaker.interpolate_property(self, "offset", offset, _shake_amount, _shake_speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	$Shaker.interpolate_property(self, "rotation", rotation, _shake_angle, _shake_speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	$Shaker.start()
+
+
+func _on_Shaker_tween_all_completed() -> void:
 	if not _shake_amount:
 		return
 	randomize()
@@ -122,9 +130,3 @@ func _shake_move_completed() -> void:
 		_shake_amount = Vector2.ZERO
 		_shake_angle = 0.0
 	_shake()
-
-
-func _shake() -> void:
-	$Shaker.interpolate_property(self, "offset", offset, _shake_amount, _shake_speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	$Shaker.interpolate_property(self, "rotation", rotation, _shake_angle, _shake_speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	$Shaker.start()

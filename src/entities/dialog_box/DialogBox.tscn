@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://assets/fonts/RobotoMono-Medium.fnt" type="BitmapFont" id=1]
+[ext_resource path="res://assets/fonts/RobotoMono-Medium.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/entities/dialog_box/dialog_box.gd" type="Script" id=2]
 [ext_resource path="res://src/entities/dialog_box/text_manager.gd" type="Script" id=3]
 [ext_resource path="res://assets/textures/dialog_box/eye.png" type="Texture" id=4]
@@ -8,13 +8,11 @@
 [ext_resource path="res://assets/textures/dialog_box/bars.png" type="Texture" id=6]
 [ext_resource path="res://assets/textures/dialog_box/iris.png" type="Texture" id=7]
 [ext_resource path="res://src/entities/dialog_box/eyes.gd" type="Script" id=8]
+[ext_resource path="res://src/entities/dialog_box/bars_tweener.gd" type="Script" id=9]
 
 [sub_resource type="VisualShaderNodeTexture" id=1]
 output_port_for_preview = 0
 source = 1
-
-[sub_resource type="VisualShaderNodeScalarUniform" id=2]
-uniform_name = "lod"
 
 [sub_resource type="VisualShaderNodeInput" id=3]
 input_name = "screen_uv"
@@ -32,9 +30,11 @@ input_name = "uv"
 [sub_resource type="VisualShaderNodeScalarOp" id=7]
 operator = 2
 
+[sub_resource type="VisualShaderNodeScalarConstant" id=12]
+constant = 3.0
+
 [sub_resource type="VisualShader" id=8]
 code = "shader_type canvas_item;
-uniform float lod;
 
 
 
@@ -45,46 +45,39 @@ void vertex() {
 
 void fragment() {
 // Input:4
-	vec3 n_out4p0;
-	n_out4p0 = vec3(SCREEN_UV,0.0);
+	vec3 n_out4p0 = vec3(SCREEN_UV, 0.0);
 
-// ScalarUniform:3
-	float n_out3p0;
-	n_out3p0 = lod;
+// Scalar:9
+	float n_out9p0 = 3.000000;
 
 // Input:7
-	vec3 n_out7p0;
-	n_out7p0 = vec3(UV,0.0);
+	vec3 n_out7p0 = vec3(UV, 0.0);
 
 // VectorDecompose:5
-	float n_out5p0;
-	float n_out5p1;
-	float n_out5p2;
-	n_out5p0 = n_out7p0.x;
-	n_out5p1 = n_out7p0.y;
-	n_out5p2 = n_out7p0.z;
+	float n_out5p0 = n_out7p0.x;
+	float n_out5p1 = n_out7p0.y;
+	float n_out5p2 = n_out7p0.z;
 
 // ScalarSmoothStep:6
 	float n_in6p0 = 0.00000;
 	float n_in6p1 = 0.10000;
-	float n_out6p0;
-	n_out6p0 = smoothstep( n_in6p0, n_in6p1, n_out5p1 );
+	float n_out6p0 = smoothstep(n_in6p0, n_in6p1, n_out5p1);
 
 // ScalarOp:8
-	float n_out8p0;
-	n_out8p0 = n_out3p0 * n_out6p0;
+	float n_out8p0 = n_out9p0 * n_out6p0;
 
 // Texture:2
 	vec3 n_out2p0;
 	float n_out2p1;
 	{
-		vec4 _tex_read = textureLod( SCREEN_TEXTURE , n_out4p0.xy , n_out8p0 );
+		vec4 _tex_read = textureLod(SCREEN_TEXTURE, n_out4p0.xy, n_out8p0);
 		n_out2p0 = _tex_read.rgb;
 		n_out2p1 = _tex_read.a;
 	}
 
 // Output:0
 	COLOR.rgb = n_out2p0;
+	COLOR.a = n_out6p0;
 
 }
 
@@ -93,13 +86,13 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -919, 118.75 )
+custom_defines = ""
+graph_offset = Vector2( -1034, 65.25 )
 mode = 1
 flags/light_only = false
+nodes/fragment/0/position = Vector2( 640, 140 )
 nodes/fragment/2/node = SubResource( 1 )
 nodes/fragment/2/position = Vector2( -60, 120 )
-nodes/fragment/3/node = SubResource( 2 )
-nodes/fragment/3/position = Vector2( -520, 180 )
 nodes/fragment/4/node = SubResource( 3 )
 nodes/fragment/4/position = Vector2( -520, 120 )
 nodes/fragment/5/node = SubResource( 4 )
@@ -109,12 +102,17 @@ nodes/fragment/6/position = Vector2( -540, 240 )
 nodes/fragment/7/node = SubResource( 6 )
 nodes/fragment/7/position = Vector2( -900, 240 )
 nodes/fragment/8/node = SubResource( 7 )
-nodes/fragment/8/position = Vector2( -280, 220 )
-nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 4, 0, 2, 0, 5, 1, 6, 2, 7, 0, 5, 0, 3, 0, 8, 0, 6, 0, 8, 1, 8, 0, 2, 1 )
+nodes/fragment/8/position = Vector2( -280, 180 )
+nodes/fragment/9/node = SubResource( 12 )
+nodes/fragment/9/position = Vector2( -520, 180 )
+nodes/fragment/connections = PoolIntArray( 4, 0, 2, 0, 5, 1, 6, 2, 7, 0, 5, 0, 6, 0, 8, 1, 8, 0, 2, 1, 6, 0, 0, 1, 2, 0, 0, 0, 9, 0, 8, 0 )
 
 [sub_resource type="ShaderMaterial" id=9]
 shader = SubResource( 8 )
-shader_param/lod = 4.0
+
+[sub_resource type="DynamicFont" id=11]
+size = 200
+font_data = ExtResource( 1 )
 
 [sub_resource type="Animation" id=10]
 length = 0.3
@@ -139,121 +137,43 @@ tracks/0/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=11]
-length = 0.4
-tracks/0/type = "value"
-tracks/0/path = NodePath("Bars:rect_size")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 2560, 1280 ), Vector2( 2816, 1408 ), Vector2( 1280, 256 ), Vector2( 564, 280 ), Vector2( 624, 312 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Bars:rect_position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -128, -89 ), Vector2( -141, -102 ), Vector2( -65, 16 ), Vector2( -28, 12 ), Vector2( -31, 8 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Bars/ColorRect:material:shader_param/lod")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 4.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Eyes/ColorRect:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -80, -6 ), Vector2( -80, -7 ), Vector2( -80, 4 ), Vector2( -80, -2 ), Vector2( -80, -5 ) ]
-}
-
-[sub_resource type="Animation" id=12]
-length = 0.4
-tracks/0/type = "value"
-tracks/0/path = NodePath("Bars/ColorRect:material:shader_param/lod")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 4.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Eyes/ColorRect:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -80, -5 ), Vector2( -80, -2 ), Vector2( -80, 4 ), Vector2( -80, -7 ), Vector2( -80, -6 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Bars:rect_size")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 624, 312 ), Vector2( 564, 280 ), Vector2( 1280, 256 ), Vector2( 2816, 1408 ), Vector2( 2560, 1280 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Bars:rect_position")
-tracks/3/interp = 2
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -31, 8 ), Vector2( -28, 12 ), Vector2( -65, 16 ), Vector2( -141, -102 ), Vector2( -128, -89 ) ]
-}
-
 [node name="DialogBox" type="Node2D"]
+z_index = 1
 script = ExtResource( 2 )
 
 [node name="CameraController" parent="." instance=ExtResource( 5 )]
 
-[node name="Bars" type="NinePatchRect" parent="."]
-margin_left = -128.0
-margin_top = -89.0
-margin_right = 2432.0
-margin_bottom = 1191.0
+[node name="BarsControl" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -737.0
+margin_top = -874.0
+margin_right = 11543.0
+margin_bottom = 6566.0
+rect_scale = Vector2( 0.12, 0.12 )
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="BarsControl"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bars" type="NinePatchRect" parent="BarsControl/MarginContainer"]
+margin_left = 5840.0
+margin_top = 7184.0
+margin_right = 6440.0
+margin_bottom = 7440.0
 grow_horizontal = 2
-grow_vertical = 2
-rect_scale = Vector2( 0.1, 0.1 )
+grow_vertical = 0
+rect_min_size = Vector2( 600, 256 )
+rect_pivot_offset = Vector2( 345, 880 )
+size_flags_horizontal = 4
+size_flags_vertical = 8
 texture = ExtResource( 6 )
 draw_center = false
 region_rect = Rect2( 0, 0, 256, 256 )
@@ -268,28 +188,71 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorRect" type="ColorRect" parent="Bars"]
+[node name="MarginContainer" type="MarginContainer" parent="BarsControl/MarginContainer/Bars"]
 show_behind_parent = true
-material = SubResource( 9 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 35.0
-margin_right = -35.0
-margin_bottom = -35.0
+rect_pivot_offset = Vector2( 420, 470 )
+custom_constants/margin_right = 13
+custom_constants/margin_top = 10
+custom_constants/margin_left = 13
+custom_constants/margin_bottom = 13
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="BarsControl/MarginContainer/Bars/MarginContainer"]
+show_behind_parent = true
+material = SubResource( 9 )
+margin_left = 13.0
+margin_top = 10.0
+margin_right = 587.0
+margin_bottom = 243.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer2" type="MarginContainer" parent="BarsControl/MarginContainer/Bars/MarginContainer"]
+show_behind_parent = true
+margin_left = 13.0
+margin_top = 10.0
+margin_right = 587.0
+margin_bottom = 243.0
+rect_pivot_offset = Vector2( 420, 470 )
+custom_constants/margin_right = 60
+custom_constants/margin_top = 60
+custom_constants/margin_left = 60
+custom_constants/margin_bottom = 80
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="BarsControl/MarginContainer/Bars/MarginContainer/MarginContainer2"]
+margin_left = 60.0
+margin_top = 60.0
+margin_right = 514.0
+margin_bottom = 153.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/normal_font = SubResource( 11 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Eyes" type="Node2D" parent="."]
-position = Vector2( 0, 36 )
-scale = Vector2( 0.3, 0.3 )
+position = Vector2( 0, 20 )
+scale = Vector2( 0.32, 0.32 )
 script = ExtResource( 8 )
 
 [node name="ColorRect" type="ColorRect" parent="Eyes"]
-margin_left = -80.0
-margin_top = -6.0
-margin_right = 80.0
-margin_bottom = 14.0
+margin_left = -84.0
+margin_top = -22.0
+margin_right = 82.0
+margin_bottom = -2.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -308,30 +271,15 @@ texture = ExtResource( 4 )
 [node name="Iris" type="Sprite" parent="Eyes/RightEye"]
 texture = ExtResource( 7 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_left = -120.0
-margin_top = -80.0
-margin_right = 200.0
-margin_bottom = 69.0
-rect_scale = Vector2( 0.75, 0.75 )
-mouse_filter = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-custom_fonts/normal_font = ExtResource( 1 )
-bbcode_enabled = true
-scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="DialogPlayer" type="AnimationPlayer" parent="."]
 anims/test = SubResource( 10 )
 
-[node name="BarsPlayer" type="AnimationPlayer" parent="."]
-anims/close_bars = SubResource( 11 )
-anims/open_bars = SubResource( 12 )
+[node name="BarsTweener" type="Tween" parent="."]
+script = ExtResource( 9 )
+_bars_path = NodePath("../BarsControl/MarginContainer/Bars")
 
 [node name="TextManager" type="Node" parent="."]
 script = ExtResource( 3 )
+_text_label_path = NodePath("../BarsControl/MarginContainer/Bars/MarginContainer/MarginContainer2/RichTextLabel")
 
 [node name="Tween" type="Tween" parent="TextManager"]
