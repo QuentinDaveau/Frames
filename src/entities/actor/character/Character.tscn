@@ -125,7 +125,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.02 ),
+"times": PoolRealArray( 0.005 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -155,7 +155,7 @@ collision_mask = 4
 script = ExtResource( 9 )
 
 [node name="RunParticleManager" type="Node2D" parent="SpritePivot" index="2"]
-position = Vector2( -93.2174, -0.908569 )
+position = Vector2( -78.9221, -0.908569 )
 script = ExtResource( 11 )
 _run_particle_path = "res://src/entities/actor/character/RunParticle.tscn"
 
