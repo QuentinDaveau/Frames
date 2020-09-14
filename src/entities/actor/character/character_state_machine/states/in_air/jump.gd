@@ -9,7 +9,7 @@ var _is_falling: bool = false
 
 func enter() -> void:
 	owner.add_velocity(Vector2.UP * JUMP_VELOCITY)
-#	GROUNDED_CHECK.jumping_disable(GROUND_CHECK_DISABLED_DURATION)
+	ANIMATION_STATE.travel("jump")
 	.enter()
 
 

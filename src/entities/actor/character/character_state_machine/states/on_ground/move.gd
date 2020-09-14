@@ -12,7 +12,7 @@ func enter() -> void:
 		emit_signal("finished", "push")
 		return
 #	update_look_direction(get_walking_direction())
-	owner.get_node("AnimationPlayer").play("run")
+	ANIMATION_STATE.travel("run")
 	cast.connect("pushable_collides", self, "_on_pushable_collision")
 	.enter()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/entities/actor/Actor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/entities/actor/things/box/box_state_machine/states/fall.gd" type="Script" id=2]
@@ -6,9 +6,12 @@
 [ext_resource path="res://src/entities/actor/things/box/box.gd" type="Script" id=4]
 [ext_resource path="res://src/entities/actor/things/box/box_state_machine/states/pushed.gd" type="Script" id=5]
 [ext_resource path="res://src/entities/actor/things/box/box_state_machine/box_state_machine.gd" type="Script" id=6]
+[ext_resource path="res://assets/textures/objects/box.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 50, 50 )
+extents = Vector2( 56, 56 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=2]
 
 [node name="Box" groups=[
 "pushable",
@@ -18,6 +21,10 @@ _class_name = "Box"
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource( 1 )
+
+[node name="Sprite" parent="SpritePivot" index="0"]
+scale = Vector2( 0.22, 0.22 )
+texture = ExtResource( 7 )
 
 [node name="StateMachine" parent="." index="2"]
 script = ExtResource( 6 )
@@ -33,3 +40,6 @@ script = ExtResource( 2 )
 [node name="Pushed" type="Node" parent="StateMachine" index="2"]
 script = ExtResource( 5 )
 _push_speed = 100.0
+
+[node name="AnimationTree" parent="." index="4"]
+parameters/playback = SubResource( 2 )

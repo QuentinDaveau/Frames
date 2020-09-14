@@ -2,6 +2,7 @@ extends State
 
 onready var GRAVITY: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 onready var DEAD_ZONE: float = 0.2
+onready var ANIMATION_STATE: AnimationNodeStateMachinePlayback = owner.get_node("AnimationTree")["parameters/playback"]
 
 export(float) var MAX_VELOCITY: float
 export(float) var ACCELERATION: float
