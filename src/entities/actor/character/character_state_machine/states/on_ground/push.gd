@@ -19,7 +19,7 @@ func enter() -> void:
 	_push_velocity = _pushable.push(Vector2(_input_direction.x, 0))
 	owner.get_node("SpritePivot/Sprite").modulate = Color(0.5, 0.1, 0.1)
 #	update_look_direction(get_walking_direction())
-	owner.get_node("AnimationPlayer").play("push")
+	ANIMATION_STATE.travel("push")
 	.enter()
 
 

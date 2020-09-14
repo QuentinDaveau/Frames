@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/entities/frame/Frame.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/logic/logic_bodies/button/Button.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://src/entities/actor/things/box/Box.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/logic/logic_gates/and_gate/AndGate.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/tilesets/basic_tileset.tres" type="TileSet" id=6]
+[ext_resource path="res://src/logic/logic_bodies/light/Light.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "test"
@@ -83,6 +84,42 @@ position = Vector2( 672, 352 )
 
 [node name="Box9" parent="TileMap/Objects" index="19" instance=ExtResource( 4 )]
 position = Vector2( 688, -384 )
+
+[node name="Light" parent="TileMap/Objects" index="20" instance=ExtResource( 7 )]
+position = Vector2( 2016, -32 )
+_signal_source = NodePath("../Button")
+
+[node name="Light2" parent="TileMap/Objects" index="21" instance=ExtResource( 7 )]
+position = Vector2( 2016, 64 )
+_signal_source = NodePath("../Button2")
+
+[node name="Light3" parent="TileMap/Objects" index="22" instance=ExtResource( 7 )]
+position = Vector2( 2016, 160 )
+_signal_source = NodePath("../Button3")
+
+[node name="Light4" parent="TileMap/Objects" index="23" instance=ExtResource( 7 )]
+position = Vector2( 2016, 256 )
+_signal_source = NodePath("../Button4")
+
+[node name="Light5" parent="TileMap/Objects" index="24" instance=ExtResource( 7 )]
+position = Vector2( 2016, 352 )
+_signal_source = NodePath("../Button5")
+
+[node name="Light6" parent="TileMap/Objects" index="25" instance=ExtResource( 7 )]
+position = Vector2( 2016, 448 )
+_signal_source = NodePath("../Button6")
+
+[node name="Light7" parent="TileMap/Objects" index="26" instance=ExtResource( 7 )]
+position = Vector2( 2016, 544 )
+_signal_source = NodePath("../Button7")
+
+[node name="Light8" parent="TileMap/Objects" index="27" instance=ExtResource( 7 )]
+position = Vector2( 2016, 640 )
+_signal_source = NodePath("../Button8")
+
+[node name="Light9" parent="TileMap/Objects" index="28" instance=ExtResource( 7 )]
+position = Vector2( 2016, 736 )
+_signal_source = NodePath("../Button9")
 
 [node name="AnimationPlayer" parent="AnimationManager" index="1"]
 anims/test = SubResource( 1 )

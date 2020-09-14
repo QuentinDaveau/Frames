@@ -7,7 +7,7 @@ func enter() -> void:
 	if _input_direction.x:
 		emit_signal("finished", "move")
 		return
-	owner.get_node("AnimationPlayer").play("idle")
+	ANIMATION_STATE.travel("idle")
 
 
 func handle_input(event) -> void:

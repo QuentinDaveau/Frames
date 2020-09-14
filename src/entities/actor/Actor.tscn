@@ -1,6 +1,81 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://src/entities/actor/actor.gd" type="Script" id=1]
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+animation = "fall"
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "fall_enter"
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "jump"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "push"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+
+[sub_resource type="AnimationNodeStateMachine" id=1]
+states/fall/node = SubResource( 3 )
+states/fall/position = Vector2( 659, 37 )
+states/fall_enter/node = SubResource( 4 )
+states/fall_enter/position = Vector2( 487, 101 )
+states/idle/node = SubResource( 5 )
+states/idle/position = Vector2( 534, 219 )
+states/jump/node = SubResource( 6 )
+states/jump/position = Vector2( 243, 174 )
+states/push/node = SubResource( 7 )
+states/push/position = Vector2( 976, 219 )
+states/run/node = SubResource( 8 )
+states/run/position = Vector2( 859, 114 )
+transitions = [ "idle", "fall_enter", SubResource( 9 ), "idle", "jump", SubResource( 10 ), "idle", "run", SubResource( 11 ), "run", "push", SubResource( 12 ), "push", "idle", SubResource( 13 ), "run", "idle", SubResource( 14 ), "push", "run", SubResource( 15 ), "push", "fall_enter", SubResource( 16 ), "run", "fall_enter", SubResource( 17 ), "jump", "fall_enter", SubResource( 18 ), "fall_enter", "fall", SubResource( 19 ), "fall", "idle", SubResource( 20 ), "fall", "run", SubResource( 21 ), "jump", "idle", SubResource( 22 ), "jump", "run", SubResource( 23 ), "fall_enter", "run", SubResource( 24 ), "fall_enter", "idle", SubResource( 25 ) ]
+start_node = "idle"
+graph_offset = Vector2( 18, -42 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=2]
 
 [node name="Actor" type="KinematicBody2D" groups=[
 "actor",
@@ -18,3 +93,9 @@ script = ExtResource( 1 )
 [node name="StateMachine" type="Node" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 1 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 2 )

@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/logic/logic_bodies/light/light.gd" type="Script" id=1]
+[ext_resource path="res://assets/textures/objects/light.png" type="Texture" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform bool lit = false;
+
+void fragment(){
+	COLOR.rgb = texture(TEXTURE, UV).rgb * vec3(float(lit));
+	COLOR.a = texture(TEXTURE, UV).a;
+}"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/lit = false
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 14.7475
+height = 20.7775
+
+[node name="Light" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 2 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+offset = Vector2( -126, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource( 3 )

@@ -86,10 +86,6 @@ monitorable = false
 collision_layer = 1
 collision_mask = 3
 
-[node name="Bull" parent="BullFrame/TileMap/Actors" index="0"]
-collision_layer = 1
-collision_mask = 1
-
 [node name="AnimationManager" parent="BullFrame" index="2"]
 _animations = {
 "bull_fall": NodePath("Animations/BullFall"),
@@ -131,8 +127,8 @@ __meta__ = {
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/MarginContainer"]
 material = SubResource( 3 )
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_right = 1920.0
+margin_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 1, 1, 1, 0 )
@@ -144,7 +140,7 @@ __meta__ = {
 position = Vector2( 264, 368 )
 _player_path = NodePath("../Character")
 
-[node name="DialogPlayer" parent="DialogBox" index="4"]
+[node name="DialogPlayer" parent="DialogBox" index="3"]
 anims/test2 = ExtResource( 11 )
 
 [editable path="BullFrame"]

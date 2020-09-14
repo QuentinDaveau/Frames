@@ -8,6 +8,7 @@ func _on_Area2D_body_entered(body: Node) -> void:
 		return
 	_pressed = true
 	emit_signal("state_update", _pressed)
+	$Sprite.scale.y = 0.2
 
 
 func _on_Area2D_body_exited(body: Node) -> void:
@@ -17,3 +18,4 @@ func _on_Area2D_body_exited(body: Node) -> void:
 		return
 	_pressed = false
 	emit_signal("state_update", _pressed)
+	$Sprite.scale.y = 0.4

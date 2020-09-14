@@ -1,8 +1,9 @@
 extends "in_air.gd"
 
 
-#func enter() -> void:
-#	.enter()
+func enter() -> void:
+	ANIMATION_STATE.travel("fall")
+	.enter()
 #
 #
 #func handle_input(event) -> void:
