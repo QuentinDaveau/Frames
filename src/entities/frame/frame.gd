@@ -16,6 +16,8 @@ var _angular_velocity: float = 0.0
 var _applied_force: Vector2 = Vector2.RIGHT * 100
 var _applied_force_origin: Vector2 = Vector2.ZERO
 
+var _is_awoke: bool = false
+
 
 func _physics_process(delta: float) -> void:
 		match _physic_state:
@@ -73,18 +75,6 @@ func exit() -> void:
 	return
 
 
-func _reparent(actor: Actor, target: Node2D) -> void:
-	actor.set_reparenting(true)
-	var actor_global_position = actor.global_position
-	var actor_global_rotation = actor.global_rotation
-	actor.get_parent().remove_child(actor)
-	target.add_child(actor)
-	actor.set_owner(target)
-	actor.global_position = actor_global_position
-	actor.global_rotation = actor_global_rotation
-	actor.set_reparenting(false)
-
-
 func _on_trigger_activated(trigger_identifier: String) -> void:
 	$SignalManager.signal_recieved(trigger_identifier)
 
@@ -139,18 +129,27 @@ func _apply_damp(delta: float) -> void:
 # 		return
 
 
+func _update_awoke(awoke: bool) -> void:
+	if _is_awoke == awoke:
+		return
+	_is_awoke = awoke
+	for body in $TileMap/Objects.get_children():
+			if not body.is_in_group("actor"):
+				continue
+			if body is Character:
+				continue
+			body.set_active(awoke)
+
+
 func _on_actor_entered(actor) -> void:
 	if actor.is_reparenting():
 		return
 	if actor is Character:
 		$TileMap/CameraController.take_camera_control()
-		for body in $TileMap/Objects.get_children():
-			if not body.is_in_group("actor"):
-				continue
-			if body is Character:
-				continue
-			body.set_active(true)
-	call_deferred("_reparent", actor, $TileMap/Objects)
+		_update_awoke(true)
+	else:
+		actor.set_active(_is_awoke)
+	actor.call_deferred("reparent", $TileMap/Objects, self)
 
 
 func _on_actor_exited(actor) -> void:
@@ -158,10 +157,7 @@ func _on_actor_exited(actor) -> void:
 		return
 	if actor is Character:
 		$TileMap/CameraController.leave_camera_control()
-		for body in $TileMap/Objects.get_children():
-			if not body.is_in_group("actor"):
-				continue
-			if body is Character:
-				continue
-			body.set_active(false)
-	call_deferred("_reparent", actor, get_parent())
+		_update_awoke(false)
+	if actor.get_parenting_owner() != self:
+		return
+	call_deferred("_reparent", actor, get_parent(), null)

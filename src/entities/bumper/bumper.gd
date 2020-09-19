@@ -1,6 +1,6 @@
 extends Node2D
 
-var _impulse_vector: Vector2 = Vector2(0, -1000.0)
+export(Vector2) var _impulse_vector: Vector2 = Vector2(0, -1000.0)
 
 
 func _ready() -> void:

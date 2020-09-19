@@ -8,12 +8,14 @@ func _ready():
 	}
 
 
-func set_to_pushed_state(direction: Vector2) -> bool:
+func set_to_pushed_state(direction: Vector2) -> Vector2:
+	if current_state == $Pushed:
+		return $Pushed.get_push_velocity()
 	if current_state.can_push():
 		$Pushed.set_push_direction(direction)
 		_change_state("pushed")
 		return $Pushed.get_push_velocity()
-	return false
+	return Vector2.ZERO
 
 
 func stop_push() -> void:

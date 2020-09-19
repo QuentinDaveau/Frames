@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/tilesets/basic_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/entities/actor/character/Character.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://src/entities/frame/custom_frames/FifthFrame.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/entities/frame/custom_frames/BigBoxFrame.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/entities/dialog_box/DialogBox.tscn" type="PackedScene" id=10]
+[ext_resource path="res://src/entities/frame/custom_frames/TestFrame.tscn" type="PackedScene" id=11]
 
 [node name="MainMap" type="Node2D"]
 
@@ -24,7 +25,7 @@ position = Vector2( 128, 2680 )
 _player_path = NodePath("../Character")
 
 [node name="Character" parent="." instance=ExtResource( 2 )]
-position = Vector2( 136, 2912 )
+position = Vector2( 2406.4, 1616 )
 
 [node name="Frames" type="Node2D" parent="."]
 
@@ -45,6 +46,9 @@ position = Vector2( 4160, 1984 )
 
 [node name="BigBoxFrame" parent="Frames" instance=ExtResource( 9 )]
 position = Vector2( 5216, 1952 )
+
+[node name="TestFrame" parent="Frames" instance=ExtResource( 11 )]
+position = Vector2( 64, -64 )
 
 [node name="GameCamera" parent="." instance=ExtResource( 6 )]
 _start_target_node = NodePath("../Character")
