@@ -13,7 +13,7 @@
 [ext_resource path="res://src/entities/actor/character/run_particle_manager.gd" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 15.7592, 54.9758 )
+extents = Vector2( 12.8054, 46.8825 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "fall"
@@ -288,15 +288,17 @@ z_index = -2
 script = ExtResource( 10 )
 
 [node name="CollisionShape2D" parent="." index="0"]
-position = Vector2( 0, 8.00955 )
+position = Vector2( 0.793701, 10.1269 )
 shape = SubResource( 1 )
+
+[node name="SpritePivot" parent="." index="1"]
+scale = Vector2( 0.9, 0.9 )
 
 [node name="Sprite" parent="SpritePivot" index="0"]
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 7 )
 vframes = 3
 hframes = 14
-frame = 28
 region_rect = Rect2( 161.463, 22.8449, 1835.28, 75.526 )
 
 [node name="PushCast" type="RayCast2D" parent="SpritePivot" index="1"]
@@ -306,7 +308,7 @@ collision_mask = 4
 script = ExtResource( 9 )
 
 [node name="RunParticleManager" type="Node2D" parent="SpritePivot" index="2"]
-position = Vector2( -78.9221, -0.908569 )
+position = Vector2( -78.9221, -4.02652 )
 script = ExtResource( 11 )
 _run_particle_path = "res://src/entities/actor/character/RunParticle.tscn"
 

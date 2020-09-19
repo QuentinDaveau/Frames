@@ -13,6 +13,7 @@ var _current_look_direction: int = LOOK_DIRECTION.right
 var _velocity: Vector2 = Vector2.ZERO
 var _current_collision: int = COLLISION_STATE.none
 var _reparenting: bool = false
+var _parenting_owner: Node = null
 
 
 # Temporary override of the get_class function which normally would return the base KinematicBody2D class
@@ -33,12 +34,25 @@ func set_active(value: bool = true) -> void:
 	$StateMachine.set_active(value)
 
 
-func set_reparenting(value: bool) -> void:
-	_reparenting = value
+func reparent(target: Node2D, new_parenting_owner: Node2D) -> void:
+	_reparenting = true
+	var actor_global_position = global_position
+	var actor_global_rotation = global_rotation
+	get_parent().remove_child(self)
+	target.add_child(self)
+	set_owner(target)
+	global_position = actor_global_position
+	global_rotation = actor_global_rotation
+	_reparenting = false
+	_parenting_owner = new_parenting_owner
 
 
 func is_reparenting() -> bool:
 	return _reparenting
+
+
+func get_parenting_owner() -> Node:
+	return _parenting_owner
 
 
 func apply_impulse(impulse_vector: Vector2) -> void:
@@ -51,7 +65,7 @@ func set_look_direction(look_direction: int) -> void:
 	if abs(look_direction) != 1:
 		return
 	_current_look_direction = look_direction
-	$SpritePivot.scale.x = _current_look_direction
+	$SpritePivot.scale.x = _current_look_direction * abs($SpritePivot.scale.x)
 
 
 func get_look_direction() -> int:
